@@ -1,0 +1,73 @@
+{
+  "name": "react-native-secure-element",
+  "version": "0.0.1",
+  "description": "The most secure way to store information on a device.",
+  "react-native": "src/index.ts",
+  "types": "lib/typescript/index.d.ts",
+  "main": "lib/commonjs/index.js",
+  "module": "lib/module/index.js",
+  "license": "MIT",
+  "author": "Marius Reimer <reime005@gmail.com> (https://github.com/reime005)",
+  "contributors": [
+    {
+      "name": "Marius Reimer",
+      "email": "reime005@gmail.com",
+      "url": "https://github.com/reime005"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:NectGmbH/react-native-secure-element.git"
+  },
+  "scripts": {
+    "analyze": "npx tsc --noEmit",
+    "lint": "npx eslint ./ --ignore-pattern example --ignore-pattern node_modules --fix --quiet",
+    "shipit": "np",
+    "test": "echo 'no tests defined'",
+    "precommit": "lint-staged && yarn analyze",
+    "build": "bob build",
+    "prepare": "yarn build"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "yarn lint",
+      "git add"
+    ]
+  },
+  "devDependencies": {
+    "@react-native-community/bob": "^0.7.0",
+    "@react-native-community/eslint-config": "0.0.5",
+    "@types/react": "^16.9.9",
+    "@types/react-native": "^0.60.21",
+    "eslint": "^6.5.1",
+    "eslint-plugin-prettier": "^3.1.1",
+    "husky": "^3.0.9",
+    "lint-staged": "^9.4.2",
+    "np": "^5.1.1",
+    "prettier": "^1.18.2",
+    "react": "^16.11.0",
+    "react-native": "^0.61.2",
+    "typescript": "^3.6.4"
+  },
+  "eslintConfig": {
+    "extends": "@react-native-community"
+  },
+  "@react-native-community/bob": {
+    "source": "src",
+    "output": "lib",
+    "targets": [
+      "commonjs",
+      "module",
+      "typescript"
+    ]
+  },
+  "files": [
+    "/android",
+    "!/android/build",
+    "/ios",
+    "/web",
+    "src/",
+    "lib/",
+    "/*.podspec"
+  ]
+}
