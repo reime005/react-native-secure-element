@@ -26,7 +26,8 @@
     "test": "echo 'no tests defined'",
     "precommit": "lint-staged && yarn analyze",
     "build": "bob build",
-    "prepare": "yarn build"
+    "prepare": "yarn build",
+    "postinstall": "git submodule update --init --recursive"
   },
   "lint-staged": {
     "*.ts": [
@@ -34,11 +35,15 @@
       "git add"
     ]
   },
+  "peerDependencies": {
+    "react": ">=16.0.0",
+    "react-native": ">=0.56.0"
+  },
   "devDependencies": {
     "@react-native-community/bob": "^0.7.0",
     "@react-native-community/eslint-config": "0.0.5",
     "@types/react": "^16.9.9",
-    "@types/react-native": "^0.60.21",
+    "@types/react-native": "^0.60.25",
     "eslint": "^6.5.1",
     "eslint-plugin-prettier": "^3.1.1",
     "husky": "^3.0.9",
