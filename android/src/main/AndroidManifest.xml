@@ -1,5 +1,3 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.mariusreimer.rnsecureelement">
-
-    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+          package="com.rnsecureelement">
 </manifest>

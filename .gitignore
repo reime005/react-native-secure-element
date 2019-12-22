@@ -46,3 +46,5 @@ buck-out/
 
 .vscode
 lib/
+.project
+org.eclipse*

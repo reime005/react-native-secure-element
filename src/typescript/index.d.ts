@@ -1,16 +1,14 @@
 export interface ISecureElement {
-  configure(opts: SecureElementOptions): Promise<void>;
   decrypt(key: string, value: string, opts: AndroidKeyGenOptions): Promise<string | null>;
   encrypt(key: string, value: string, opts: AndroidKeyGenOptions): Promise<string | null>;
-  clearElement(key: string): Promise<void>;
-  clearAll(): Promise<void>;
+  clearElement(key: string, keyProvider: AndroidKeyGenProvider): Promise<void>;
+  clearAll(keyProvider: AndroidKeyGenProvider): Promise<void>;
   isSecureDevice(): Promise<boolean>;
   getDeviceFeatures(): Promise<DeviceFeature[]>;
   performAuthentication(withFeature: DeviceFeature): Promise<boolean>;
 }
 
 export interface ISecureElementNativeModule {
-  configure(opts: SecureElementOptions, callback: (errors: Error) => void): void;
   decrypt(
     key: string,
     value: string,
@@ -23,8 +21,8 @@ export interface ISecureElementNativeModule {
     opts: AndroidKeyGenOptions,
     callback: (errors: Error, result: string) => void
   ): void;
-  clearElement(key: string, callback: (errors: Error) => void): void;
-  clearAll(callback: (errors: Error) => void): void;
+  clearElement(key: string, keyProvider: AndroidKeyGenProvider, callback: (errors: Error) => void): void;
+  clearAll(keyProvider: AndroidKeyGenProvider, callback: (errors: Error) => void): void;
   isSecureDevice(callback: (errors: Error, isSecureDevice: boolean) => void): void;
   getDeviceFeatures(callback: (errors: Error, deviceFeatures: [DeviceFeature]) => void): void;
   performAuthentication(

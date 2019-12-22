@@ -79,26 +79,10 @@ public final class RNSecureElementModule extends ReactContextBaseJavaModule {
                 keystore.load(null); // prevent issue
             } catch (Exception e) {
                 e.printStackTrace();
-                error = RNSecureElementErrorUtil.getError(null, e.getMessage());
+                error = RNSecureElementErrorUtil.getError(null, e.getCause() != null ? e.getCause().getMessage() : e.getMessage());
             }
         }
 
-//        if (opts.hasKey("keyPairGeneratorAlgorithm") &&
-//                opts.hasKey("keyPairGeneratorProvider") &&
-//                ReadableType.String.equals(opts.getType("keyPairGeneratorAlgorithm")) &&
-//                ReadableType.String.equals(opts.getType("keyPairGeneratorProvider"))) {
-//            final String keyPairGeneratorAlgorithm = opts.getString("keyPairGeneratorAlgorithm");
-//            final String keyPairGeneratorProvider = opts.getString("keyPairGeneratorProvider");
-//
-//            try {
-//                keyPairGenerator = KeyPairGenerator.getInstance(keyPairGeneratorAlgorithm, keyPairGeneratorProvider);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                error = RNSecureElementErrorUtil.getError(null, e.getMessage());
-//            }
-//        }
-
-        // TODO: 2019-12-17 implement
         if (error != null) {
             callback.invoke(error);
         } else {
@@ -114,7 +98,7 @@ public final class RNSecureElementModule extends ReactContextBaseJavaModule {
             keystore.deleteEntry(keyAlias);
         } catch (Exception e) {
             e.printStackTrace();
-            error = RNSecureElementErrorUtil.getError(keyAlias, e.getMessage());
+            error = RNSecureElementErrorUtil.getError(keyAlias, e.getCause() != null ? e.getCause().getMessage() : e.getMessage());
         }
 
         if (error != null) {
@@ -136,7 +120,7 @@ public final class RNSecureElementModule extends ReactContextBaseJavaModule {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            error = RNSecureElementErrorUtil.getError(keyAlias, e.getMessage());
+            error = RNSecureElementErrorUtil.getError(keyAlias, e.getCause() != null ? e.getCause().getMessage() : e.getMessage());
         }
 
         if (error != null) {
@@ -173,8 +157,8 @@ public final class RNSecureElementModule extends ReactContextBaseJavaModule {
 
     private String getCipherTransformation(ReadableMap opts) {
         return opts.getString("keyPairGeneratorAlgorithm") + "/" +
-        opts.getString("keyGenBlockMode") + "/" +
-        opts.getString("keyGenEncryptionPadding");
+                opts.getString("keyGenBlockMode") + "/" +
+                opts.getString("keyGenEncryptionPadding");
     }
 
     @ReactMethod
@@ -200,11 +184,11 @@ public final class RNSecureElementModule extends ReactContextBaseJavaModule {
                 return;
             } catch (Exception e2) {
                 e2.printStackTrace();
-                error = RNSecureElementErrorUtil.getError(key, e2.getMessage());
+                error = RNSecureElementErrorUtil.getError(key, e2.getCause() != null ? e2.getCause().getMessage() : e2.getMessage());
             }
         } catch (Exception e) {
             e.printStackTrace();
-            error = RNSecureElementErrorUtil.getError(key, e.getMessage());
+            error = RNSecureElementErrorUtil.getError(key, e.getCause() != null ? e.getCause().getMessage() : e.getMessage());
         }
 
         if (error != null) {
@@ -237,7 +221,7 @@ public final class RNSecureElementModule extends ReactContextBaseJavaModule {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            error = RNSecureElementErrorUtil.getError(null, e.getMessage());
+            error = RNSecureElementErrorUtil.getError(null, e.getCause() != null ? e.getCause().getMessage() : e.getMessage());
         }
 
         if (error != null) {
@@ -259,7 +243,6 @@ public final class RNSecureElementModule extends ReactContextBaseJavaModule {
     }
 
     private ActivityEventListener mActivityEventListener;
-
 
     private void showUserPrompt(final String key, final String value, final ReadableMap opts, final Callback callback) throws Exception {
         final KeyguardManager keyguardManager = (KeyguardManager) getReactApplicationContext().getSystemService(Context.KEYGUARD_SERVICE);
@@ -302,7 +285,7 @@ public final class RNSecureElementModule extends ReactContextBaseJavaModule {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             currentActivity.startActivityForResult(intent, ConfirmRequestId);
         } else {
-          throw new Exception("User prompt could not be started");
+            throw new Exception("User prompt could not be started");
         }
     }
 
@@ -377,73 +360,8 @@ public final class RNSecureElementModule extends ReactContextBaseJavaModule {
         return generator.generateKeyPair();
     }
 
-    private static String convertErrorCode(int code) {
-        switch (code) {
-          case FingerprintManager.FINGERPRINT_ERROR_CANCELED:
-            return "user_cancel";
-          case FingerprintManager.FINGERPRINT_ERROR_HW_UNAVAILABLE:
-            return "not_available";
-          case FingerprintManager.FINGERPRINT_ERROR_LOCKOUT:
-            return "lockout";
-          case FingerprintManager.FINGERPRINT_ERROR_NO_SPACE:
-            return "no_space";
-          case FingerprintManager.FINGERPRINT_ERROR_TIMEOUT:
-            return "timeout";
-          case FingerprintManager.FINGERPRINT_ERROR_UNABLE_TO_PROCESS:
-            return "unable_to_process";
-          default:
-            return "unknown";
-        }
-      }
-
-      private static String convertHelpCode(int code) {
-        switch (code) {
-          case FingerprintManager.FINGERPRINT_ACQUIRED_IMAGER_DIRTY:
-            return "imager_dirty";
-          case FingerprintManager.FINGERPRINT_ACQUIRED_INSUFFICIENT:
-            return "insufficient";
-          case FingerprintManager.FINGERPRINT_ACQUIRED_PARTIAL:
-            return "partial";
-          case FingerprintManager.FINGERPRINT_ACQUIRED_TOO_FAST:
-            return "too_fast";
-          case FingerprintManager.FINGERPRINT_ACQUIRED_TOO_SLOW:
-            return "too_slow";
-          default:
-            return "unknown";
-        }
-      }
-
-//    @ReactMethod
-//    public void authenticate(String reason, String fallbackLabel, Promise promise) {
-//                Log.d("UI thread", "I am the UI thread");
-//
-//                if (mIsAuthenticating) {
-//                    WritableMap cancelResult = Arguments.createMap();
-//                    cancelResult.putBoolean("success", false);
-//                    cancelResult.putString("error", "app_cancel");
-//                    safeResolve(cancelResult);
-//                    mPromise = promise;
-//                    return;
-//                  }
-//
-//                  mIsAuthenticating = true;
-//                  mPromise = promise;
-//                  mCancellationSignal = new CancellationSignal();
-//        showUserAuthenticationScreen();
-//
-//                  //mFingerprintManager.authenticate(null, 0, mCancellationSignal, mAuthenticationCallback, null);
-//    }
-//
-//    private Executor getMainThreadExecutor() {
-//        return new MainThreadExecutor();
-//    }
-//
-//    private static class MainThreadExecutor implements Executor {
-//        private final Handler handler = new Handler(Looper.getMainLooper());
-//
-//        @Override
-//        public void execute(@NonNull Runnable r) {
-//            handler.post(r);
-//        }
-//    }
+    @ReactMethod
+    public void authenticate(Callback callback) {
+        //NOT YET IMPLEMENTED
+    }
 }

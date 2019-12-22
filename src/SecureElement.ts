@@ -1,3 +1,4 @@
+import { AndroidKeyGenProvider } from './../../../../../src/typescript/index.d';
 import { NativeModules } from 'react-native';
 
 import {
@@ -19,21 +20,11 @@ export class SecureElement implements ISecureElement {
     }
   }
 
-  configure(opts: SecureElementOptions) {
-    return new Promise<void>((resolve, reject) => {
-      this._secureElementModule.configure(opts, (error: Error) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve();
-        }
-      });
-    });
-  }
-
   decrypt(key: string, value: string, opts: AndroidKeyGenOptions) {
     return new Promise<string | null>((resolve, reject) => {
       this._secureElementModule.decrypt(key, value, opts, (error: Error, result: string) => {
+        console.warn({ error, result });
+
         if (error) {
           reject(error);
         } else {
@@ -55,9 +46,9 @@ export class SecureElement implements ISecureElement {
     });
   }
 
-  clearElement(key: string) {
+  clearElement(key: string, keyProvider: AndroidKeyGenProvider) {
     return new Promise<void>((resolve, reject) => {
-      this._secureElementModule.clearElement(key, (error: Error) => {
+      this._secureElementModule.clearElement(key, keyProvider, (error: Error) => {
         if (error) {
           reject(error);
         } else {
@@ -67,9 +58,9 @@ export class SecureElement implements ISecureElement {
     });
   }
 
-  clearAll() {
+  clearAll(keyProvider: AndroidKeyGenProvider) {
     return new Promise<void>((resolve, reject) => {
-      this._secureElementModule.clearAll((error: Error) => {
+      this._secureElementModule.clearAll(keyProvider, (error: Error) => {
         if (error) {
           reject(error);
         } else {

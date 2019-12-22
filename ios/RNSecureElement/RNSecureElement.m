@@ -45,7 +45,7 @@ RCT_EXPORT_METHOD(configure:
     context.touchIDAuthenticationAllowableReuseDuration = [opts[@"touchIDAuthenticationAllowableReuseDuration"] doubleValue];
     [secureElement changeContext:context];
   }
-  
+
   callback(@[(id)kCFNull, (id)kCFNull]);
 }
 
@@ -58,20 +58,20 @@ RCT_EXPORT_METHOD(decrypt:
   if (value == nil) {
     value = @"";
   }
-  
+
   struct KeyGenParameters params = [secureElement getDefaultKeyGenParameters];
   params = [RNSecureElementUtils getKeyGenParamsForDict:opts];
   params.publicKeyName = key;
   params.privateKeyName = key;
-  
+
   CFErrorRef decryptionError = NULL;
   NSString *decryptedResult = [secureElement decrypt:value withParameters:&params error:&decryptionError];
-  
+
   NSDictionary *anyError = nil;
   if (decryptionError != NULL) {
     anyError = RCTJSErrorFromNSError((__bridge NSError *)decryptionError);
   }
-  
+
   callback(@[RCTNullIfNil(anyError), RCTNullIfNil(decryptedResult)]);
 }
 
@@ -84,25 +84,26 @@ RCT_EXPORT_METHOD(encrypt:
   if (value == nil) {
     value = @"";
   }
-  
+
   CFErrorRef encryptionError = NULL;
   struct KeyGenParameters params = [secureElement getDefaultKeyGenParameters];
   params = [RNSecureElementUtils getKeyGenParamsForDict:opts];
   params.publicKeyName = key;
   params.privateKeyName = key;
-  
+
   NSString *encryptedResult = [secureElement encrypt:value withParameters:&params error:&encryptionError];
-  
+
   NSDictionary *anyError = nil;
   if (encryptionError != NULL) {
     anyError = RCTJSErrorFromNSError((__bridge NSError *)encryptionError);
   }
-  
+
   callback(@[RCTNullIfNil(anyError), RCTNullIfNil(encryptedResult)]);
 }
 
 RCT_EXPORT_METHOD(clearElement:
                   (NSString *)key
+                  unused:(NSString *)unused
                   callback:(RCTResponseSenderBlock)callback)
 {
   NSError *error = nil;
@@ -118,8 +119,8 @@ RCT_EXPORT_METHOD(clearElement:
   callback(@[RCTNullIfNil(anyError)]);
 }
 
-RCT_EXPORT_METHOD(clearAll:
-                  (RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(clearAll:(NSString *)unused
+                  callback:(RCTResponseSenderBlock)callback)
 {
   NSError *error = nil;
 
@@ -138,9 +139,9 @@ RCT_EXPORT_METHOD(isSecureDevice:
                   (RCTResponseSenderBlock)callback)
 {
   NSError *error = nil;
-  
+
   BOOL result = [secureElement deviceHasPassCode:error];
-  
+
   NSDictionary *anyError = nil;
 
   if (error != NULL) {
@@ -176,7 +177,7 @@ RCT_EXPORT_METHOD(getDeviceFeatures:
   } @catch (NSException *exception) {
     error = [NSError errorWithDomain:@"react.native.secure.element" code:0 userInfo:exception.userInfo];
   }
-  
+
   NSDictionary *anyError = nil;
 
   if (error != NULL) {
