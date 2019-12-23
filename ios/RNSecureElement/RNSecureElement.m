@@ -37,17 +37,17 @@ RCT_EXPORT_MODULE()
 
 #pragma mark - Exported JS Functions
 
-RCT_EXPORT_METHOD(configure:
-                  (NSDictionary *)opts
-                  callback:(RCTResponseSenderBlock)callback)
-{
-  if (opts[@"touchIDAuthenticationAllowableReuseDuration"] != nil) {
-    context.touchIDAuthenticationAllowableReuseDuration = [opts[@"touchIDAuthenticationAllowableReuseDuration"] doubleValue];
-    [secureElement changeContext:context];
-  }
+// RCT_EXPORT_METHOD(configure:
+//                   (NSDictionary *)opts
+//                   callback:(RCTResponseSenderBlock)callback)
+// {
+//   if (opts[@"touchIDAuthenticationAllowableReuseDuration"] != nil) {
+//     context.touchIDAuthenticationAllowableReuseDuration = [opts[@"touchIDAuthenticationAllowableReuseDuration"] doubleValue];
+//     [secureElement changeContext:context];
+//   }
 
-  callback(@[(id)kCFNull, (id)kCFNull]);
-}
+//   callback(@[(id)kCFNull, (id)kCFNull]);
+// }
 
 RCT_EXPORT_METHOD(decrypt:
                   (NSString *)key

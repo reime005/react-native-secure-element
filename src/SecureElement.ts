@@ -1,12 +1,11 @@
-import { AndroidKeyGenProvider } from './../../../../../src/typescript/index.d';
 import { NativeModules } from 'react-native';
 
 import {
   ISecureElement,
   ISecureElementNativeModule,
-  SecureElementOptions,
   DeviceFeature,
   AndroidKeyGenOptions,
+  AndroidKeyGenProvider
 } from './typescript/index.d';
 
 export class SecureElement implements ISecureElement {
@@ -23,8 +22,6 @@ export class SecureElement implements ISecureElement {
   decrypt(key: string, value: string, opts: AndroidKeyGenOptions) {
     return new Promise<string | null>((resolve, reject) => {
       this._secureElementModule.decrypt(key, value, opts, (error: Error, result: string) => {
-        console.warn({ error, result });
-
         if (error) {
           reject(error);
         } else {

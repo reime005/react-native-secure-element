@@ -16,14 +16,11 @@ import {
   StatusBar,
   Button,
   TextInput,
+  Platform,
 } from 'react-native';
 
 import {
-  Header,
-  LearnMoreLinks,
   Colors,
-  DebugInstructions,
-  ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
 import {
@@ -32,7 +29,12 @@ import {
   AndroidKeyGenOptions,
 } from 'react-native-secure-element/src';
 
-const commonAndroidOptions: AndroidKeyGenOptions & IOSKeyGenOptions = {
+const commonOptions = Platform.select({
+  android: commonAndroidOptions,
+  ios: commonIOSOptions,
+});
+
+const commonAndroidOptions: AndroidKeyGenOptions = {
   keyGenBlockMode: 'ECB',
   keyGenEncryptionPadding: 'PKCS1Padding',
   keyPairGeneratorAlgorithm: 'RSA',
@@ -45,15 +47,27 @@ const commonAndroidOptions: AndroidKeyGenOptions & IOSKeyGenOptions = {
   userPromptDescription: 'Some description',
   privateSACFlags: [],
   publicSACFlags: [],
-  privateSACAccessible: 'kSecAttrAccessibleWhenUnlockedThisDeviceOnly',
-  publicSACAccessible: 'kSecAttrAccessibleAlwaysThisDeviceOnly',
+  privateSACAccessible: '',
+  publicSACAccessible: '',
 };
 
-const commonIOSOptions = {};
+const commonIOSOptions: IOSKeyGenOptions = {
+  userPrompt: 'The test app requires TouchID access',
+  privateSACFlags: [],
+  publicSACFlags: [],
+  privateSACAccessible: 'kSecAttrAccessibleWhenUnlockedThisDeviceOnly',
+  publicSACAccessible: 'kSecAttrAccessibleAlwaysThisDeviceOnly';
+  secAttrType: 'ECSECPrimeRandom',
+  saveInSecureEnclaveIfPossible: true,
+  algorithm: 'SHA256',
+  privateKeySizeInBits: 256,
+  publicKeyName: 'secure.element.key',
+  privateKeyName: 'secure.element.key',
+  touchIDAuthenticationAllowableReuseDuration: 60
+}
 
 const App: () => React$Node = () => {
   const secureElement = useRef(new SecureElement());
-  const [configured, setConfigured] = useState(false);
   const [plainText, setPlainText] = useState('');
   const [encryptedText, setEncryptedText] = useState('');
   const [decryptedText, setDecryptedText] = useState('');
@@ -71,13 +85,6 @@ const App: () => React$Node = () => {
       .getDeviceFeatures()
       .then(features => setDeviceFeatures(features))
       .catch(e => setDeviceFeatures('fail'));
-
-    secureElement.current
-      .configure({
-        keystoreType: 'AndroidKeyStore',
-      })
-      .then(() => setConfigured(true))
-      .catch(() => setConfigured(false));
   }, [secureElement]);
 
   useEffect(() => {
@@ -86,8 +93,8 @@ const App: () => React$Node = () => {
     }
 
     secureElement.current
-      .encrypt('test.key.id.290', plainText, {
-        ...commonAndroidOptions,
+      .encrypt('test.key.id.42', plainText, {
+        ...commonOptions,
       })
       .then(text => setEncryptedText(text))
       .catch(() => setEncryptedText('fail'));
@@ -99,30 +106,20 @@ const App: () => React$Node = () => {
     }
 
     secureElement.current
-      .decrypt('test.key.id.290', encryptedText, {
-        ...commonAndroidOptions,
+      .decrypt('test.key.id.42', encryptedText, {
+        ...commonOptions,
       })
       .then(text => setDecryptedText(text))
       .catch(() => setDecryptedText('fail'));
   }, [encryptedText]);
 
-  if (!configured) {
-    return (
-      <>
-        <StatusBar barStyle="dark-content" />
-        <SafeAreaView>
-          <Text>react-native-secure-element has not been configured yet.</Text>
-        </SafeAreaView>
-      </>
-    );
-  }
-
   return (
     <>
       <StatusBar barStyle="dark-content" />
-      <SafeAreaView style={styles.safeArea}>
+      <SafeAreaView style={styles.safeArea} testID="test_root_view">
         <TextInput
-          style={{borderBottomColor: 'grey', borderBottomWidth: 2, margin: 10}}
+          testID="test_text_input"
+          style={{borderBottomColor: 'green', borderBottomWidth: 3, margin: 10}}
           onChangeText={text => setPlainText(text)}
           placeholder="Enter some text"
         />
@@ -131,25 +128,21 @@ const App: () => React$Node = () => {
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
           <Text style={styles.title}>Plain text:</Text>
-          <Text style={styles.resultText}>{plainText}</Text>
+          <Text style={styles.resultText} testID="test_text_input_raw">{plainText}</Text>
 
           <Text style={styles.title}>Encrypted text:</Text>
-          <Text style={styles.resultText}>{encryptedText}</Text>
+          <Text style={styles.resultText} testID="test_text_input_encrypted">{encryptedText}</Text>
 
           <Text style={styles.title}>Decrypted text:</Text>
-          <Text style={styles.resultText}>{decryptedText}</Text>
+          <Text style={styles.resultText} testID="test_text_input_decrypted">{decryptedText}</Text>
+
           <Button
+            testID="test_button_user_auth_encrypt"
             title='encrypt "userAuthText" with user auth'
             onPress={() => {
               secureElement.current
-                .encrypt('test.key.id.userAuth2', 'userAuthText', {
-                  ...commonAndroidOptions,
-                  userPrompt: 'iOS Prompt',
-                  algorithm: 'SHA256',
-                  privateKeySizeInBits: 256,
-                  secAttrType: 'ECSECPrimeRandom',
-                  saveInSecureEnclaveIfPossible: true,
-                  keyGenUserAuthenticationRequired: true,
+                .encrypt('test.key.id.userAuth', 'userAuthText', {
+                  ...commonOptions,
                   privateSACFlags: [
                     'kSecAccessControlPrivateKeyUsage',
                     'kSecAccessControlUserPresence',
@@ -162,24 +155,20 @@ const App: () => React$Node = () => {
           />
 
           {!!encryptedUserAuthText && (
-            <Text style={styles.title}>The encryped user auth text is:</Text>
+            <Text style={styles.title} testID="test_text_encrypted_typed">The encryped user auth text is:</Text>
           )}
           {!!encryptedUserAuthText && (
-            <Text style={styles.resultText}>{encryptedUserAuthText}</Text>
+            <Text style={styles.resultText} testID="test_text_decrypted_typed">{encryptedUserAuthText}</Text>
           )}
 
           <Button
-            title='decrypt "userAuthText" with user auth'
+            testID="test_button_user_auth_decrypt"
+            title='decrypt "userAuthText" with user aut
+              testID="test_button_clear_all"h'
             onPress={() => {
               secureElement.current
-                .decrypt('test.key.id.userAuth2', encryptedUserAuthText, {
-                  ...commonAndroidOptions,
-                  userPrompt: 'iOS Prompt',
-                  algorithm: 'SHA256',
-                  privateKeySizeInBits: 256,
-                  secAttrType: 'ECSECPrimeRandom',
-                  saveInSecureEnclaveIfPossible: true,
-                  keyGenUserAuthenticationRequired: true,
+                .decrypt('test.key.id.userAuth', encryptedUserAuthText, {
+                  ...commonOptions,
                   privateSACFlags: [
                     'kSecAccessControlPrivateKeyUsage',
                     'kSecAccessControlUserPresence',
@@ -195,20 +184,22 @@ const App: () => React$Node = () => {
           />
 
           <Text style={styles.title}>The user auth decrypted result is:</Text>
-          <Text style={styles.resultText}>{userAuthText}</Text>
+          <Text style={styles.resultText} testID="test_text_decrypted_user_result">{userAuthText}</Text>
 
           <View style={{flex: 1}}>
             <Button
+              testID="test_button_clear_last"
               title="clear only user auth key"
               onPress={() => {
                 secureElement.current
-                  .clearElement('test.key.id.userAuth2')
+                  .clearElement('test.key.id.userAuth')
                   .then(() => console.warn('cleared'))
                   .catch(e => console.warn(e.message));
               }}
             />
 
             <Button
+              testID="test_button_clear_all"
               title="clear all keys"
               onPress={() => {
                 secureElement.current
@@ -221,7 +212,7 @@ const App: () => React$Node = () => {
 
           <Text style={styles.title}>Device features:</Text>
           {Array.isArray(deviceFeatures) && (
-            <Text>{deviceFeatures.join(', ')}</Text>
+            <Text testID="test_text_device_features_available">{deviceFeatures.join(', ')}</Text>
           )}
         </ScrollView>
       </SafeAreaView>

@@ -81,7 +81,6 @@ public class SecureElement implements ISecureElement {
         return false;
     }
 
-
     private KeyPair getOrCreateKeyPair(final KeyGenParameters params) throws Exception {
         final KeyPair keyPair = getKeyPair(params);
 

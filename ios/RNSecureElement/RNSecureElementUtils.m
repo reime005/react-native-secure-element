@@ -14,12 +14,12 @@
 + (struct KeyGenParameters) getKeyGenParamsForDict:(NSDictionary *)opts
 {
   struct  KeyGenParameters params;
-  
+
   if (opts == nil || opts.allKeys == nil || opts.allKeys.count == 0) {
     //TODO: improve error handling
     return params;
   }
-  
+
   params.algorithm = [self getAlgorithmForKey:opts[@"algorithm"]];
   params.attrKeyType = [self getSecAttrKeyType:opts[@"secAttrType"]];
   params.saveInSecureEnclaveIfPossible = opts[@"saveInSecureEnclaveIfPossible"] != nil ? kSecAttrTokenIDSecureEnclave : nil;
@@ -31,7 +31,7 @@
   params.privateKeySACFlags = [self calculateSACFlags:opts[@"privateSACFlags"]];
   params.publicKeySACFlags = [self calculateSACFlags:opts[@"publicSACFlags"]];
   params.privateKeySizeInBits = [opts[@"privateKeySizeInBits"] intValue];
-  
+
   return params;
 }
 
@@ -46,7 +46,7 @@
   } else if ([key isEqualToString:@"SHA512"]) {
      return kSecKeyAlgorithmECDSASignatureMessageX962SHA512;
   }
-  
+
   return kSecKeyAlgorithmECDSASignatureMessageX962SHA256;
 }
 
@@ -61,7 +61,7 @@
   } else if ([key isEqualToString:@"SHA512"]) {
      return kSecKeyAlgorithmECIESEncryptionStandardX963SHA512AESGCM;
   }
-  
+
   return kSecKeyAlgorithmECIESEncryptionStandardX963SHA256AESGCM;
 }
 
@@ -70,7 +70,7 @@
   if ([name isEqualToString:@"EC"]) {
     return kSecAttrKeyTypeEC;
   }
-  
+
   return kSecAttrKeyTypeECSECPrimeRandom;
 }
 
@@ -79,81 +79,81 @@
   if ([constant isEqualToString:@"kSecAttrAccessibleWhenUnlocked"]) {
     return kSecAttrAccessibleWhenUnlocked;
   }
-  
+
   if ([constant isEqualToString:@"kSecAttrAccessibleAfterFirstUnlock"]) {
     return kSecAttrAccessibleAfterFirstUnlock;
   }
-  
+
   if ([constant isEqualToString:@"kSecAttrAccessibleAlways"]) {
     return kSecAttrAccessibleAlways;
   }
-  
+
   if ([constant isEqualToString:@"kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly"]) {
     return kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly;
   }
-  
+
   if ([constant isEqualToString:@"kSecAttrAccessibleWhenUnlockedThisDeviceOnly"]) {
     return kSecAttrAccessibleWhenUnlockedThisDeviceOnly;
   }
-  
+
   if ([constant isEqualToString:@"kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly"]) {
     return kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly;
   }
-  
+
   if ([constant isEqualToString:@"kSecAttrAccessibleAlwaysThisDeviceOnly"]) {
     return kSecAttrAccessibleAlwaysThisDeviceOnly;
   }
-  
+
   return 0;
 }
 
 + (SecAccessControlCreateFlags) calculateSACFlags:(NSArray *)array {
   SecAccessControlCreateFlags flags = 0;
-  
+
   if ([array containsObject:@"kSecAccessControlUserPresence"]) {
     flags |= kSecAccessControlUserPresence;
   }
-  
+
   if ([array containsObject:@"kSecAccessControlBiometryAny"]) {
     if (@available(iOS 11.3, *)) {
       flags |= kSecAccessControlBiometryAny;
     }
   }
-  
+
   if ([array containsObject:@"kSecAccessControlTouchIDAny"]) {
     flags |= kSecAccessControlTouchIDAny;
   }
-  
+
   if ([array containsObject:@"kSecAccessControlBiometryCurrentSet"]) {
     if (@available(iOS 11.3, *)) {
       flags |= kSecAccessControlBiometryCurrentSet;
     }
   }
-  
+
   if ([array containsObject:@"kSecAccessControlTouchIDCurrentSet"]) {
     flags |= kSecAccessControlTouchIDCurrentSet;
   }
-  
+
   if ([array containsObject:@"kSecAccessControlDevicePasscode"]) {
     flags |= kSecAccessControlDevicePasscode;
   }
-  
+
   if ([array containsObject:@"kSecAccessControlOr"]) {
     flags |= kSecAccessControlOr;
   }
-  
+
   if ([array containsObject:@"kSecAccessControlAnd"]) {
     flags |= kSecAccessControlAnd;
   }
-  
+
   if ([array containsObject:@"kSecAccessControlPrivateKeyUsage"]) {
     flags |= kSecAccessControlPrivateKeyUsage;
   }
-  
+
   if ([array containsObject:@"kSecAccessControlApplicationPassword"]) {
     flags |= kSecAccessControlApplicationPassword;
   }
-  
+
   return flags;
 }
 

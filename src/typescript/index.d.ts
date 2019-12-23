@@ -92,13 +92,9 @@ export interface IOSKeyGenOptions {
   publicSACAccessible: IOSSecAttrAccessible | '';
   secAttrType: IOSSecAttrType;
   saveInSecureEnclaveIfPossible: boolean;
-  algorithm?: IOSAlgorithm; // defaults to "SHA256"
+  algorithm: IOSAlgorithm; // defaults to "SHA256"
   privateKeySizeInBits: number;
   publicKeyName: string;
   privateKeyName: string;
   touchIDAuthenticationAllowableReuseDuration?: number; // defaults to "300"
-}
-
-export interface SecureElementOptions {
-  keystoreType: AndroidKeyGenProvider;
 }
