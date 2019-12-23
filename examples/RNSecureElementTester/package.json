@@ -19,12 +19,36 @@
     "@babel/runtime": "^7.6.2",
     "@react-native-community/eslint-config": "^0.0.5",
     "babel-jest": "^24.9.0",
+    "detox": "^14.5.1",
     "eslint": "^6.5.1",
     "jest": "^24.9.0",
     "metro-react-native-babel-preset": "^0.56.0",
     "react-test-renderer": "16.9.0"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "react-native",
+    "transform": {
+      "^.+\\.js$": "<rootDir>/node_modules/react-native/jest/preprocessor.js"
+    },
+    "testMatch": [
+      "<rootDir>/(test/unit/**/*.spec.(js|jsx|ts|tsx)|**/__test__/*.(js|jsx|ts|tsx))"
+    ]
+  },
+  "detox": {
+    "configurations": {
+      "ios": {
+        "binaryPath": "ios/build/app/Build/Products/Release-iphonesimulator/RNSecureElementTester.app",
+        "build": "xcodebuild -workspace ios/RNSecureElementTester.xcworkspace -scheme RNSecureElementTester -configuration Release -sdk iphonesimulator -UseModernBuildSystem=NO -derivedDataPath ios/build/app -quiet",
+        "type": "ios.simulator",
+        "name": "iPhone 11"
+      },
+      "android": {
+        "binaryPath": "android/app/build/outputs/apk/debug/app-debug.apk",
+        "build": "cd android && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug",
+        "type": "android.emulator",
+        "name": "emu"
+      }
+    },
+    "test-runner": "jest"
   }
 }

@@ -163,8 +163,7 @@ const App: () => React$Node = () => {
 
           <Button
             testID="test_button_user_auth_decrypt"
-            title='decrypt "userAuthText" with user aut
-              testID="test_button_clear_all"h'
+            title='decrypt "userAuthText" with user auth'
             onPress={() => {
               secureElement.current
                 .decrypt('test.key.id.userAuth', encryptedUserAuthText, {
@@ -205,7 +204,7 @@ const App: () => React$Node = () => {
                 secureElement.current
                   .clearAll()
                   .then(() => console.warn('all clean'))
-                  .catch(e => console.warn(e.message));
+                  .catch(e => console.error(e.message));
               }}
             />
           </View>
