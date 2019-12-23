@@ -35,6 +35,10 @@ The iOS side uses the CommonCrypto and LocalAuthentication APIs. It saves the ke
   - Very secure Android encryption and decryption via Android KeyStore
   - Natively (without React Native) available implementation
 
+## Why / Purpose
+
+The purpose of this repository is to provide a secure way to decrypt and encrypt values. Such values could consist of sensitive user data or authentication secrets (TOTP, ...).
+
 ## API
 
 See types definition in [src/typescript](./src/typescript/index.d.ts).
@@ -65,5 +69,9 @@ Note that this requires a react-native version of at least 0.60.0, to use its au
 
 ## TODO
 
-* Add React Hooks
+Sorted by priority (higher = higher).
+
+* User authentication functionality (without encryption)
+* Signing certificates
+* React Hooks
 * Error handling/formatting
