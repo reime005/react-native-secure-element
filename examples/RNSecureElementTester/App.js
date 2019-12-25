@@ -148,6 +148,8 @@ const App: () => React$Node = () => {
               secureElement.current
                 .encrypt('test.key.id.userAuth', 'userAuthText', {
                   ...commonOptions,
+                  keyGenUserAuthenticationRequired: true,
+                  userAuthenticationValidityDurationSeconds: 10,
                   privateSACFlags: [
                     'kSecAccessControlPrivateKeyUsage',
                     'kSecAccessControlUserPresence',
@@ -165,6 +167,8 @@ const App: () => React$Node = () => {
               secureElement.current
                 .decrypt('test.key.id.userAuth', encryptedUserAuthText, {
                   ...commonOptions,
+                  keyGenUserAuthenticationRequired: true,
+                  userAuthenticationValidityDurationSeconds: 10,
                   privateSACFlags: [
                     'kSecAccessControlPrivateKeyUsage',
                     'kSecAccessControlUserPresence',
@@ -174,7 +178,7 @@ const App: () => React$Node = () => {
                   setUserAuthText(decryptedText);
                 })
                 .catch(e => {
-                  setUserAuthText(e.message);
+                  setUserAuthText('fail');
                 });
             }}
           />
@@ -226,6 +230,7 @@ const styles = StyleSheet.create({
   resultText: {
     backgroundColor: '#ccc',
     margin: 5,
+    fontSize: 10,
     padding: 5,
   },
   title: {

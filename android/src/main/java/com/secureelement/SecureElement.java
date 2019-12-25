@@ -39,7 +39,11 @@ public class SecureElement implements ISecureElement {
 
     @Override
     public String decrypt(String value, @NonNull KeyGenParameters params) throws Exception {
-        final KeyPair keyPair = getOrCreateKeyPair(params);
+        final KeyPair keyPair = getKeyPair(params);
+
+        if (keyPair == null) {
+            throw new Exception("KeyPair could not be found");
+        }
 
         final Cipher cipher = Cipher.getInstance(params.getCipherTransformation());
         cipher.init(Cipher.DECRYPT_MODE, keyPair.getPrivate());
