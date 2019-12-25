@@ -28,7 +28,7 @@ import {
 import {
   IOSKeyGenOptions,
   AndroidKeyGenOptions,
-} from 'react-native-secure-element/src/typescript';
+} from 'react-native-secure-element/src/typescript/index.d';
 
 const commonOptions = Platform.select({
   android: commonAndroidOptions,
@@ -46,7 +46,6 @@ const commonAndroidOptions: AndroidKeyGenOptions = {
   userAuthenticationValidityDurationSeconds: 10,
   userPromptTitle: 'Some title',
   userPromptDescription: 'Some description',
-  pr
   privateSACFlags: [],
   publicSACFlags: [],
   privateSACAccessible: '',
