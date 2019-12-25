@@ -1,11 +1,13 @@
 async function expectBasicType(text) {
   const textInput = await element(by.id('test_text_input'));
 
-    expect(textInput).toBeVisible();
+  await expect(textInput).toBeVisible();
 
-    await textInput.typeText(text);
+  await textInput.clearText();
+  await textInput.typeText(text);
+  await textInput.tapReturnKey();
 
-    await element(by.text('test_text_input_raw')).toHaveText(text);
+  await expect(element(by.id('test_text_input_raw'))).toHaveText(text);
 }
 
 describe('Text input', () => {
@@ -18,11 +20,15 @@ describe('Text input', () => {
     const inText = 'testStringRandom42';
     await expectBasicType(inText);
 
-    const encryptedTextElement = await element(by.id('test_text_encrypted_text'));
-    expect(encryptedTextElement).toBeVisible();
+    const encryptedTextElement = await element(
+      by.id('test_text_input_encrypted'),
+    );
+    await expect(encryptedTextElement).toBeVisible();
 
-    const decryptedTextElement = await element(by.id('test_text_decrypted_text'));
-    expect(decryptedTextElement).toBeVisible();
-    expect(decryptedTextElement).toHaveText(inText);
+    const decryptedTextElement = await element(
+      by.id('test_text_input_decrypted'),
+    );
+    await expect(decryptedTextElement).toBeVisible();
+    await expect(decryptedTextElement).toHaveText(inText);
   });
 });

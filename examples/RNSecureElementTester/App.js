@@ -19,9 +19,7 @@ import {
   Platform,
 } from 'react-native';
 
-import {
-  Colors,
-} from 'react-native/Libraries/NewAppScreen';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 import {
   SecureElement,
@@ -56,15 +54,15 @@ const commonIOSOptions: IOSKeyGenOptions = {
   privateSACFlags: [],
   publicSACFlags: [],
   privateSACAccessible: 'kSecAttrAccessibleWhenUnlockedThisDeviceOnly',
-  publicSACAccessible: 'kSecAttrAccessibleAlwaysThisDeviceOnly';
+  publicSACAccessible: 'kSecAttrAccessibleAlwaysThisDeviceOnly',
   secAttrType: 'ECSECPrimeRandom',
   saveInSecureEnclaveIfPossible: true,
   algorithm: 'SHA256',
   privateKeySizeInBits: 256,
   publicKeyName: 'secure.element.key',
   privateKeyName: 'secure.element.key',
-  touchIDAuthenticationAllowableReuseDuration: 60
-}
+  touchIDAuthenticationAllowableReuseDuration: 60,
+};
 
 const App: () => React$Node = () => {
   const secureElement = useRef(new SecureElement());
@@ -128,13 +126,19 @@ const App: () => React$Node = () => {
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
           <Text style={styles.title}>Plain text:</Text>
-          <Text style={styles.resultText} testID="test_text_input_raw">{plainText}</Text>
+          <Text style={styles.resultText} testID="test_text_input_raw">
+            {plainText}
+          </Text>
 
           <Text style={styles.title}>Encrypted text:</Text>
-          <Text style={styles.resultText} testID="test_text_input_encrypted">{encryptedText}</Text>
+          <Text style={styles.resultText} testID="test_text_input_encrypted">
+            {encryptedText}
+          </Text>
 
           <Text style={styles.title}>Decrypted text:</Text>
-          <Text style={styles.resultText} testID="test_text_input_decrypted">{decryptedText}</Text>
+          <Text style={styles.resultText} testID="test_text_input_decrypted">
+            {decryptedText}
+          </Text>
 
           <Button
             testID="test_button_user_auth_encrypt"
@@ -155,10 +159,14 @@ const App: () => React$Node = () => {
           />
 
           {!!encryptedUserAuthText && (
-            <Text style={styles.title} testID="test_text_encrypted_typed">The encryped user auth text is:</Text>
+            <Text style={styles.title} testID="test_text_encrypted_typed">
+              The encryped user auth text is:
+            </Text>
           )}
           {!!encryptedUserAuthText && (
-            <Text style={styles.resultText} testID="test_text_decrypted_typed">{encryptedUserAuthText}</Text>
+            <Text style={styles.resultText} testID="test_text_decrypted_typed">
+              {encryptedUserAuthText}
+            </Text>
           )}
 
           <Button
@@ -183,7 +191,11 @@ const App: () => React$Node = () => {
           />
 
           <Text style={styles.title}>The user auth decrypted result is:</Text>
-          <Text style={styles.resultText} testID="test_text_decrypted_user_result">{userAuthText}</Text>
+          <Text
+            style={styles.resultText}
+            testID="test_text_decrypted_user_result">
+            {userAuthText}
+          </Text>
 
           <View style={{flex: 1}}>
             <Button
@@ -211,7 +223,9 @@ const App: () => React$Node = () => {
 
           <Text style={styles.title}>Device features:</Text>
           {Array.isArray(deviceFeatures) && (
-            <Text testID="test_text_device_features_available">{deviceFeatures.join(', ')}</Text>
+            <Text testID="test_text_device_features_available">
+              {deviceFeatures.join(', ')}
+            </Text>
           )}
         </ScrollView>
       </SafeAreaView>

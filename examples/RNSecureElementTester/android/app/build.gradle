@@ -78,7 +78,7 @@ import com.android.build.OutputFile
 project.ext.react = [
     entryFile: "index.js",
     enableHermes: false,  // clean and rebuild if changing
-    bundleInDebug: true
+    bundleInDebug: false
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -134,6 +134,9 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+
+        testBuildType System.getProperty('testBuildType', 'debug')
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     splits {
         abi {
@@ -163,6 +166,13 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
+
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
@@ -181,6 +191,9 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
+
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
+
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
     if (enableHermes) {
@@ -190,6 +203,9 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+
+    androidTestImplementation('com.wix:detox:+') { transitive = true }
+    androidTestImplementation 'junit:junit:4.12'
 }
 
 // Run this once to be able to run the application with BUCK
