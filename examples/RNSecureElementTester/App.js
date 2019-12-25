@@ -123,6 +123,7 @@ const App: () => React$Node = () => {
         />
 
         <ScrollView
+          testID="test_scroll_view"
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
           <Text style={styles.title}>Plain text:</Text>
@@ -157,18 +158,6 @@ const App: () => React$Node = () => {
                 );
             }}
           />
-
-          {!!encryptedUserAuthText && (
-            <Text style={styles.title} testID="test_text_encrypted_typed">
-              The encryped user auth text is:
-            </Text>
-          )}
-          {!!encryptedUserAuthText && (
-            <Text style={styles.resultText} testID="test_text_decrypted_typed">
-              {encryptedUserAuthText}
-            </Text>
-          )}
-
           <Button
             testID="test_button_user_auth_decrypt"
             title='decrypt "userAuthText" with user auth'
@@ -203,7 +192,7 @@ const App: () => React$Node = () => {
               title="clear only user auth key"
               onPress={() => {
                 secureElement.current
-                  .clearElement('test.key.id.userAuth')
+                  .clearElement('test.key.id.userAuth', 'AndroidKeyStore')
                   .then(() => console.warn('cleared'))
                   .catch(e => console.warn(e.message));
               }}
@@ -214,7 +203,7 @@ const App: () => React$Node = () => {
               title="clear all keys"
               onPress={() => {
                 secureElement.current
-                  .clearAll()
+                  .clearAll('AndroidKeyStore')
                   .then(() => console.warn('all clean'))
                   .catch(e => console.error(e.message));
               }}

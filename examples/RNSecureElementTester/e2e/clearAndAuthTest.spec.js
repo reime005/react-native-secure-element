@@ -65,6 +65,6 @@ describe('Clear and auth functions', () => {
     await clearAllButton.tap();
 
     // if an error pops up, the app should terminate, else there is still the root view (silent call)
-    await element(by.id('test_root_view')).toBeVisible();
+    await expect(element(by.id('test_root_view'))).toBeVisible();
   });
 });
