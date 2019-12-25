@@ -93,8 +93,14 @@ public final class RNSecureElementModule extends ReactContextBaseJavaModule {
         WritableMap error = null;
         String result = null;
 
+        final KeyGenParameters params = RNSecureElementUtils.getKeyGenParametersFromDict(opts);
+
+        if (key != null) {
+            params.setKeyAlias(key);
+        }
+
         try {
-            result = secureElement.encrypt(value, RNSecureElementUtils.getKeyGenParametersFromDict(opts));
+            result = secureElement.encrypt(value, params);
         } catch (Exception e) {
             e.printStackTrace();
             error = RNSecureElementUtils.getError(key, e.getMessage());
@@ -113,6 +119,10 @@ public final class RNSecureElementModule extends ReactContextBaseJavaModule {
         String decryptedMessage = null;
 
         final KeyGenParameters params = RNSecureElementUtils.getKeyGenParametersFromDict(opts);
+
+        if (key != null) {
+            params.setKeyAlias(key);
+        }
 
         try {
             decryptedMessage = secureElement.decrypt(value, params);

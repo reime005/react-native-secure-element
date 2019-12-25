@@ -61,8 +61,11 @@ RCT_EXPORT_METHOD(decrypt:
 
   struct KeyGenParameters params = [secureElement getDefaultKeyGenParameters];
   params = [RNSecureElementUtils getKeyGenParamsForDict:opts];
-  params.publicKeyName = key;
-  params.privateKeyName = key;
+
+  if (key != nil) {
+    params.publicKeyName = key;
+    params.privateKeyName = key;
+  }
 
   CFErrorRef decryptionError = NULL;
   NSString *decryptedResult = [secureElement decrypt:value withParameters:&params error:&decryptionError];
@@ -88,8 +91,11 @@ RCT_EXPORT_METHOD(encrypt:
   CFErrorRef encryptionError = NULL;
   struct KeyGenParameters params = [secureElement getDefaultKeyGenParameters];
   params = [RNSecureElementUtils getKeyGenParamsForDict:opts];
-  params.publicKeyName = key;
-  params.privateKeyName = key;
+
+  if (key != nil) {
+    params.publicKeyName = key;
+    params.privateKeyName = key;
+  }
 
   NSString *encryptedResult = [secureElement encrypt:value withParameters:&params error:&encryptionError];
 

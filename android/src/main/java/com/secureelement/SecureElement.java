@@ -58,7 +58,6 @@ public class SecureElement implements ISecureElement {
     public void clearElement(String keyName, KeyProvider keyProvider) throws Exception {
         final KeyStore keyStore = KeyStore.getInstance(keyProvider.toString());
         keyStore.load(null);
-
         keyStore.deleteEntry(keyName);
     }
 

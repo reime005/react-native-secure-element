@@ -23,9 +23,12 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 import {
   SecureElement,
+} from 'react-native-secure-element/src';
+
+import {
   IOSKeyGenOptions,
   AndroidKeyGenOptions,
-} from 'react-native-secure-element/src';
+} from 'react-native-secure-element/src/typescript';
 
 const commonOptions = Platform.select({
   android: commonAndroidOptions,
@@ -43,6 +46,7 @@ const commonAndroidOptions: AndroidKeyGenOptions = {
   userAuthenticationValidityDurationSeconds: 10,
   userPromptTitle: 'Some title',
   userPromptDescription: 'Some description',
+  pr
   privateSACFlags: [],
   publicSACFlags: [],
   privateSACAccessible: '',

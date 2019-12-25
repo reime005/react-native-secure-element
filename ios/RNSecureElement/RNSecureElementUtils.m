@@ -23,9 +23,9 @@
   params.algorithm = [self getAlgorithmForKey:opts[@"algorithm"]];
   params.attrKeyType = [self getSecAttrKeyType:opts[@"secAttrType"]];
   params.saveInSecureEnclaveIfPossible = opts[@"saveInSecureEnclaveIfPossible"] != nil ? kSecAttrTokenIDSecureEnclave : nil;
-  params.privateKeyName = opts[@"privateKeyName"];
-  params.publicKeyName = opts[@"publicKeyName"];
-  params.userPrompt = opts[@"userPrompt"] != nil ? opts[@"userPrompt"] : @"";
+  params.privateKeyName = opts[@"privateKeyName"] != nil ? opts[@"privateKeyName"] : @"privateKeyName";
+  params.publicKeyName = opts[@"publicKeyName"] != nil ? opts[@"publicKeyName"] : @"defaultKeyName";
+  params.userPrompt = opts[@"userPrompt"] != nil ? opts[@"userPrompt"] : @"Default prompt";
   params.privateSACAccessible = [self getSACAccessibleConstant:opts[@"privateSACAccessible"]];
   params.publicSACAccessible = [self getSACAccessibleConstant:opts[@"publicSACAccessible"]];
   params.privateKeySACFlags = [self calculateSACFlags:opts[@"privateSACFlags"]];
