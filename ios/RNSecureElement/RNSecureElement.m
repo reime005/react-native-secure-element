@@ -58,7 +58,13 @@ RCT_EXPORT_METHOD(decrypt:
   if (value == nil) {
     value = @"";
   }
-
+  
+  if (opts == nil || opts.allKeys == nil || opts.allKeys.count == 0) {
+    NSError *error = [NSError errorWithDomain:@"react.native.secure.element" code:0 userInfo:@{NSLocalizedDescriptionKey:@"Options were null."}];
+    callback(@[RCTNullIfNil(error)]);
+    return;
+  }
+  
   struct KeyGenParameters params = [secureElement getDefaultKeyGenParameters];
   params = [RNSecureElementUtils getKeyGenParamsForDict:opts];
 
@@ -86,6 +92,12 @@ RCT_EXPORT_METHOD(encrypt:
 {
   if (value == nil) {
     value = @"";
+  }
+  
+  if (opts == nil || opts.allKeys == nil || opts.allKeys.count == 0) {
+    NSError *error = [NSError errorWithDomain:@"react.native.secure.element" code:0 userInfo:@{NSLocalizedDescriptionKey:@"Options were null."}];
+    callback(@[RCTNullIfNil(error)]);
+    return;
   }
 
   CFErrorRef encryptionError = NULL;

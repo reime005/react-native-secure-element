@@ -88,8 +88,8 @@ export interface IOSKeyGenOptions {
   userPrompt: string;
   privateSACFlags: IOSSecAccessControlCreateFlags[] | [];
   publicSACFlags: IOSSecAccessControlCreateFlags[] | [];
-  privateSACAccessible: IOSSecAttrAccessible | '';
-  publicSACAccessible: IOSSecAttrAccessible | '';
+  privateSACAccessible: IOSSecAttrAccessible;
+  publicSACAccessible: IOSSecAttrAccessible;
   secAttrType: IOSSecAttrType;
   saveInSecureEnclaveIfPossible: boolean;
   algorithm: IOSAlgorithm; // defaults to "SHA256"

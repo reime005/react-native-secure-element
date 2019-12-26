@@ -46,10 +46,6 @@ const commonAndroidOptions: AndroidKeyGenOptions = {
   userAuthenticationValidityDurationSeconds: 10,
   userPromptTitle: 'Some title',
   userPromptDescription: 'Some description',
-  privateSACFlags: [],
-  publicSACFlags: [],
-  privateSACAccessible: '',
-  publicSACAccessible: '',
 };
 
 const commonIOSOptions: IOSKeyGenOptions = {
@@ -95,7 +91,8 @@ const App: () => React$Node = () => {
 
     secureElement.current
       .encrypt('test.key.id.42', plainText, {
-        ...commonOptions,
+        ...commonIOSOptions,
+        ...commonAndroidOptions,
       })
       .then(text => setEncryptedText(text))
       .catch(() => setEncryptedText('fail'));
@@ -108,7 +105,8 @@ const App: () => React$Node = () => {
 
     secureElement.current
       .decrypt('test.key.id.42', encryptedText, {
-        ...commonOptions,
+        ...commonIOSOptions,
+        ...commonAndroidOptions,
       })
       .then(text => setDecryptedText(text))
       .catch(() => setDecryptedText('fail'));
@@ -150,7 +148,8 @@ const App: () => React$Node = () => {
             onPress={() => {
               secureElement.current
                 .encrypt('test.key.id.userAuth', 'userAuthText', {
-                  ...commonOptions,
+                  ...commonIOSOptions,
+                  ...commonAndroidOptions,
                   keyGenUserAuthenticationRequired: true,
                   userAuthenticationValidityDurationSeconds: 10,
                   privateSACFlags: [
@@ -169,7 +168,8 @@ const App: () => React$Node = () => {
             onPress={() => {
               secureElement.current
                 .decrypt('test.key.id.userAuth', encryptedUserAuthText, {
-                  ...commonOptions,
+                  ...commonIOSOptions,
+                  ...commonAndroidOptions,
                   keyGenUserAuthenticationRequired: true,
                   userAuthenticationValidityDurationSeconds: 10,
                   privateSACFlags: [

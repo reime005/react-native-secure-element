@@ -44,6 +44,11 @@
   // 1) look for availability of private key, create new pair if necessary
   SecKeyRef privateKeyRef = [self getOrCreateKeyWithOptions:params error:error];
   
+  if (privateKeyRef == nil) {
+   // error = CFErrorCreate(kCFAllocatorDefault, nil, nil, @{NSLocalizedDescriptionKey:@"Private key could not be retrieved."});
+    return nil;
+  }
+  
   // 2) retrieve public key if available
   SecKeyRef publicKeyRef = SecKeyCopyPublicKey(privateKeyRef);
   
@@ -67,7 +72,7 @@
   
   // lead to error if not available (not creating new keys here)
   if (privateKeyRef == nil) {
-    error = CFErrorCreate(kCFAllocatorDefault, nil, nil, @{NSLocalizedDescriptionKey:@"Private key could not be retrieved."});
+    //error = CFErrorCreate(kCFAllocatorDefault, nil, nil, @{NSLocalizedDescriptionKey:@"Private key could not be retrieved."});
     return nil;
   }
   
@@ -212,15 +217,21 @@
 - (SecKeyRef) generateKeyPairWithParams:(struct KeyGenParameters *)params
                                   error:(CFErrorRef *)error
 {
+  CFErrorRef t1 = NULL;
   SecAccessControlRef privateSAC = SecAccessControlCreateWithFlags(kCFAllocatorDefault,
                                                                    params->privateSACAccessible,
                                                                    params->privateKeySACFlags,
-                                                                   error);
-
+                                                                   &t1);
+  
+  CFErrorRef t2 = NULL;
   SecAccessControlRef publicSAC = SecAccessControlCreateWithFlags(kCFAllocatorDefault,
                                                                   params->publicSACAccessible,
                                                                   params->publicKeySACFlags,
-                                                                  error);
+                                                                  &t2);
+  
+  if (privateSAC == nil || publicSAC == nil) {
+    return nil;
+  }
   
   // create dict of private key info
   CFMutableDictionaryRef publicAccessControlDict = newCFDict;

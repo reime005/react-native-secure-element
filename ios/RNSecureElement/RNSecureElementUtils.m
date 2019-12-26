@@ -15,11 +15,6 @@
 {
   struct  KeyGenParameters params;
 
-  if (opts == nil || opts.allKeys == nil || opts.allKeys.count == 0) {
-    //TODO: improve error handling
-    return params;
-  }
-
   params.algorithm = [self getAlgorithmForKey:opts[@"algorithm"]];
   params.attrKeyType = [self getSecAttrKeyType:opts[@"secAttrType"]];
   params.saveInSecureEnclaveIfPossible = opts[@"saveInSecureEnclaveIfPossible"] != nil ? kSecAttrTokenIDSecureEnclave : nil;
