@@ -24,3 +24,6 @@ DerivedData
 *.ipa
 *.xcuserstate
 project.xcworkspace
+examples/
+node_modules/
+logo.png
