@@ -1,0 +1,35 @@
+name: iOS
+
+on: [push, pull_request]
+
+jobs:
+  some-job:
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout project
+      uses: actions/checkout@v1
+
+    - name: Specify node version
+      uses: actions/setup-node@v1
+      with:
+        node-version: '10.x'
+
+    - name: Detox setup
+      run: |
+        brew tap wix/brew
+        brew install applesimutils
+
+    - name: Install node_modules & deploy with specific XCode version
+      working-directory: ./examples/RNSecureElementTester
+      env:
+          DEVELOPER_DIR: /Applications/Xcode_11.1.app/Contents/Developer
+      run: |
+        yarn install --frozen-lockfile
+        yarn detox build -c ios.release
+
+    - name: iOS test
+      working-directory: ./examples/RNSecureElementTester
+      run: |
+        npx detox clean-framework-cache && npx detox build-framework-cache
+        yarn detox test -c ios.release
