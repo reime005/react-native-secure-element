@@ -1,4 +1,14 @@
+Properties properties = new Properties()
+if (project.rootProject.file("local.properties").exists()) {
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+} else {
+    properties.setProperty("bintray.user", System.getenv('BINTRAY_USER'))
+    properties.setProperty("bintray.apikey", System.getenv('BINTRAY_APIKEY'))
+}
+
 buildscript {
+    apply from: 'config.gradle'
+
     // The Android Gradle plugin is only required when opening the android folder stand-alone.
     // This avoids unnecessary downloads and potential conflicts when the library is included as a
     // module dependency in an application project.
@@ -8,12 +18,41 @@ buildscript {
             jcenter()
         }
         dependencies {
-            classpath 'com.android.tools.build:gradle:3.4.2'
+            classpath "com.android.tools.build:gradle:$gradle_version"
+            classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:$bintray_plugin_version"
+            classpath "com.github.ben-manes:gradle-versions-plugin:$gradle_version_plugin_version"
         }
     }
 }
 
-apply plugin: 'com.android.library'
+if (project == rootProject) {
+    apply plugin: 'com.jfrog.bintray'
+    apply plugin: 'com.android.library'
+}
+
+apply plugin: 'com.github.ben-manes.versions'
+
+// start - module specific overrides of default values written in manifest.gradle
+def bintray_project_name = bintray_project_name
+def library_description = library_description
+def library_keywords = library_keywords
+// end - module specific overrides
+
+// start - do not modify this if your project is on github
+project.ext {
+    mavDevelopers = [(properties.getProperty("bintray.user")): (maintainer)]
+    mavSiteUrl = "https://github.com/${github_username}/${github_repository_name}"
+    mavGitUrl = mavSiteUrl + '.git'
+    bugTrackerUrl = mavSiteUrl + '/issues/'
+    mavProjectName = bintray_project_name
+    mavLibraryLicenses = library_licenses
+    mavLibraryDescription = library_description
+    mavVersion = library_version
+}
+// end - do not modify this if your project is on github
+
+group = library_project_group
+version = library_version
 
 def getExtOrDefault(name) {
   return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties['RNSecureElement_' + name]
@@ -32,8 +71,32 @@ android {
         targetSdkVersion getExtOrIntegerDefault('targetSdkVersion')
     }
 
+    flavorDimensions "secure-element"
+
+    productFlavors {
+        rn {
+            dimension "secure-element"
+        }
+        general {
+            dimension "secure-element"
+        }
+    }
+
+    sourceSets {
+        main {
+            java.srcDirs = ['src/main/java']
+        }
+        general {
+            java.srcDirs = ['src/main/java']
+        }
+        rn {
+            java.srcDirs = ['src/main/java', 'src/rn/java']
+        }
+    }
+
     lintOptions {
-        warning 'InvalidPackage', 'MissingPermission'
+        abortOnError false
+        warning 'InvalidPackage'
     }
 }
 
@@ -47,5 +110,35 @@ repositories {
 }
 
 dependencies {
-    implementation "com.facebook.react:react-native:${getExtOrDefault('reactNativeVersion')}"
+    rnImplementation "com.facebook.react:react-native:${getExtOrDefault('reactNativeVersion')}"
+    implementation "androidx.annotation:annotation:1.1.0"
+}
+
+tasks.whenTaskAdded { task ->
+    if (task.name == 'androidJavadocs') {
+        task.configure {
+            failOnError false
+        }
+    }
+}
+
+if (project == rootProject) {
+    bintray {
+        user = properties.getProperty("bintray.user")
+        key = properties.getProperty("bintray.apikey")
+        publications = ['mavenPublish']
+        pkg {
+            repo = "maven"
+            name = mavProjectName
+            desc = library_description
+            websiteUrl = mavSiteUrl
+            vcsUrl = mavGitUrl
+            issueTrackerUrl = bugTrackerUrl
+            licenses = library_licenses
+            labels = library_keywords
+            publicDownloadNumbers = true
+            publish = true
+        }
+    }
+    apply from: 'publish.gradle'
 }

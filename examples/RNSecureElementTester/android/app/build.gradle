@@ -129,12 +129,12 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.rnsecureelementtester"
+        applicationId test_app_id
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
-
+        versionCode test_app_code
+        versionName test_app_version
+        missingDimensionStrategy 'secure-element', 'rn'
         testBuildType System.getProperty('testBuildType', 'debug')
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -206,7 +206,7 @@ dependencies {
     }
 
     androidTestImplementation('com.wix:detox:+') { transitive = true }
-    androidTestImplementation 'junit:junit:4.12'
+    androidTestImplementation "junit:junit:$junit_version"
 }
 
 // Run this once to be able to run the application with BUCK
