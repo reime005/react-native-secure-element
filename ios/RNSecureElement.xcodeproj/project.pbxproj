@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		299847D42367064500D92ADF /* SecureElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 299847D32367064500D92ADF /* SecureElement.swift */; };
-		2999D89B236333DF00C5D295 /* RNSecureElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 2999D89A236333DF00C5D295 /* RNSecureElement.m */; };
+		292F7C8123B6B9AC002DDD7B /* RNSecureElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 292F7C7B23B6B9AC002DDD7B /* RNSecureElement.m */; };
+		292F7C8223B6B9AC002DDD7B /* RNSecureElementUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 292F7C7C23B6B9AC002DDD7B /* RNSecureElementUtils.m */; };
+		292F7C8323B6B9AC002DDD7B /* SecureElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 292F7C8023B6B9AC002DDD7B /* SecureElement.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -34,10 +35,12 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libRNSecureElement.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNSecureElement.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		299847D22367064500D92ADF /* RNSecureElement-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RNSecureElement-Bridging-Header.h"; sourceTree = "<group>"; };
-		299847D32367064500D92ADF /* SecureElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureElement.swift; sourceTree = "<group>"; };
-		2999D89A236333DF00C5D295 /* RNSecureElement.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNSecureElement.m; sourceTree = "<group>"; };
-		2999D89C2363343300C5D295 /* RNSecureElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNSecureElement.h; sourceTree = "<group>"; };
+		292F7C7B23B6B9AC002DDD7B /* RNSecureElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNSecureElement.m; sourceTree = "<group>"; };
+		292F7C7C23B6B9AC002DDD7B /* RNSecureElementUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNSecureElementUtils.m; sourceTree = "<group>"; };
+		292F7C7D23B6B9AC002DDD7B /* RNSecureElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNSecureElement.h; sourceTree = "<group>"; };
+		292F7C7E23B6B9AC002DDD7B /* RNSecureElementUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNSecureElementUtils.h; sourceTree = "<group>"; };
+		292F7C7F23B6B9AC002DDD7B /* SecureElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecureElement.h; sourceTree = "<group>"; };
+		292F7C8023B6B9AC002DDD7B /* SecureElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecureElement.m; sourceTree = "<group>"; };
 		641E28441F0EEC8500443AF6 /* libRNSecureElement.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNSecureElement.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -67,13 +70,22 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		292F7C8423B6B9BB002DDD7B /* SecureElement */ = {
+			isa = PBXGroup;
+			children = (
+				292F7C7F23B6B9AC002DDD7B /* SecureElement.h */,
+				292F7C8023B6B9AC002DDD7B /* SecureElement.m */,
+			);
+			path = SecureElement;
+			sourceTree = "<group>";
+		};
 		2999D899236333B900C5D295 /* RNSecureElement */ = {
 			isa = PBXGroup;
 			children = (
-				2999D89A236333DF00C5D295 /* RNSecureElement.m */,
-				2999D89C2363343300C5D295 /* RNSecureElement.h */,
-				299847D32367064500D92ADF /* SecureElement.swift */,
-				299847D22367064500D92ADF /* RNSecureElement-Bridging-Header.h */,
+				292F7C7D23B6B9AC002DDD7B /* RNSecureElement.h */,
+				292F7C7B23B6B9AC002DDD7B /* RNSecureElement.m */,
+				292F7C7E23B6B9AC002DDD7B /* RNSecureElementUtils.h */,
+				292F7C7C23B6B9AC002DDD7B /* RNSecureElementUtils.m */,
 			);
 			path = RNSecureElement;
 			sourceTree = "<group>";
@@ -88,6 +100,7 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
+				292F7C8423B6B9BB002DDD7B /* SecureElement */,
 				2999D899236333B900C5D295 /* RNSecureElement */,
 				134814211AA4EA7D00B7C361 /* Products */,
 				641E28441F0EEC8500443AF6 /* libRNSecureElement.a */,
@@ -175,8 +188,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2999D89B236333DF00C5D295 /* RNSecureElement.m in Sources */,
-				299847D42367064500D92ADF /* SecureElement.swift in Sources */,
+				292F7C8323B6B9AC002DDD7B /* SecureElement.m in Sources */,
+				292F7C8123B6B9AC002DDD7B /* RNSecureElement.m in Sources */,
+				292F7C8223B6B9AC002DDD7B /* RNSecureElementUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
