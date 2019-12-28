@@ -26,7 +26,7 @@ The iOS side uses the CommonCrypto and LocalAuthentication APIs. It saves the ke
 ![Android](https://github.com/reime005/react-native-secure-element/workflows/Android/badge.svg)
 ![iOS](https://github.com/reime005/react-native-secure-element/workflows/iOS/badge.svg)
 
-<div>Icons made by <a style="font-size: 10px; color: grey" href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+<div style="font-size:10px; color: grey">Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 
 ```javascript
 /* EXAMPLE will follow */
