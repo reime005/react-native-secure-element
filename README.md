@@ -54,16 +54,16 @@ See types definition in [src/typescript](./src/typescript/index.d.ts).
 
 ## Installation
 
-To install react-native-camera-hooks, do either
+To install react-native-secure-element, do either
 
 ```bash
-npm install --save react-native-camera-hooks
+npm install --save react-native-secure-element
 ```
 
 or
 
 ```bash
-yarn add react-native-camera-hooks
+yarn add react-native-secure-element
 ```
 
 Note that this requires a react-native version of at least 0.60.0, to use its auto linking feature.
