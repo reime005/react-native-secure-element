@@ -1,3 +1,5 @@
+<h1>Currently in beta</h1>
+
 <p>&nbsp;</p>
 <p align="center">
   <img src="logo.png" width="350" title="hover text">
@@ -21,7 +23,10 @@ The iOS side uses the CommonCrypto and LocalAuthentication APIs. It saves the ke
 
 [![npm](https://img.shields.io/npm/v/react-native-secure-element.svg?style=flat-square)](http://npm.im/react-native-secure-element)
 ![GitHub](https://img.shields.io/github/license/reime005/react-native-secure-element.svg?style=flat-square)
-[![CircleCI](https://circleci.com/gh/reime005/react-native-secure-element.svg?style=svg)](https://circleci.com/gh/reime005/react-native-secure-element)
+![Android](https://github.com/reime005/react-native-secure-element/workflows/Android/badge.svg)
+![iOS](https://github.com/reime005/react-native-secure-element/workflows/iOS/badge.svg)
+
+<div>Icons made by <a style="font-size: 10px; color: grey" href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 
 ```javascript
 /* EXAMPLE will follow */
