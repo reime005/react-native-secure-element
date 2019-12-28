@@ -16,6 +16,7 @@ buildscript {
         repositories {
             google()
             jcenter()
+
         }
         dependencies {
             classpath "com.android.tools.build:gradle:$gradle_version"
@@ -28,6 +29,7 @@ buildscript {
 if (project == rootProject) {
     apply plugin: 'com.jfrog.bintray'
     apply plugin: 'com.github.ben-manes.versions'
+    apply plugin: 'maven-publish'
 }
 
 apply plugin: 'com.android.library'
@@ -126,9 +128,9 @@ if (project == rootProject) {
     bintray {
         user = properties.getProperty("bintray.user")
         key = properties.getProperty("bintray.apikey")
-        publications = ['mavenPublish']
+        publications = ['Production']
         pkg {
-            repo = "maven"
+            repo = bintray_repo_name
             name = mavProjectName
             desc = library_description
             websiteUrl = mavSiteUrl
@@ -140,5 +142,33 @@ if (project == rootProject) {
             publish = true
         }
     }
+
+    publishing {
+        publications {
+            Production(MavenPublication) {
+                artifact("$buildDir/outputs/aar/android-general-release.aar")
+                groupId library_project_group
+                artifactId bintray_project_name
+                version library_version
+
+                pom.withXml {
+                    def dependenciesNode = asNode().appendNode('dependencies')
+
+                    // Iterate over the implementation dependencies (we don't want the test ones), adding a <dependency> node for each
+                    configurations.implementation.allDependencies.each {
+                        // Ensure dependencies such as fileTree are not included in the pom.
+
+                        if (it.name != 'unspecified') {
+                            def dependencyNode = dependenciesNode.appendNode('dependency')
+                            dependencyNode.appendNode('groupId', it.group)
+                            dependencyNode.appendNode('artifactId', it.name)
+                            dependencyNode.appendNode('version', it.version)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     apply from: 'publish.gradle'
 }

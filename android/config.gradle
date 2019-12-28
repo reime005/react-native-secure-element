@@ -3,13 +3,15 @@ ext {
   github_repository_name = 'react-native-secure-element'
 
   maintainer = 'Marius Reimer (reime005)'
+  email = 'reime005@gmail.com'
 
+  bintray_repo_name = 'reime005'
   bintray_project_name = 'secure-element'
   library_description = "Securely encrypt and decrypt your user's data"
   library_keywords = ['android', 'keystore', 'security','encryption']
   library_licenses = ["MIT": 'https://opensource.org/licenses/MIT']
   library_project_group = 'com.secureelement'
-  library_version = '0.0.1'
+  library_version = '0.0.2-5'
   version_code = 2
   min_sdk = 23
   target_sdk = 28

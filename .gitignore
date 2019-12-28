@@ -49,3 +49,4 @@ lib/
 .project
 org.eclipse*
 .settings/
+.classpath
