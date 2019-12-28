@@ -28,6 +28,9 @@ jobs:
 
     - name: Install node_modules & Deploy
       working-directory: ./examples/RNSecureElementTester
+      env:
+        BINTRAY_USER: ${{ secrets.BINTRAY_USER }}
+        BINTRAY_APIKEY: ${{ secrets.BINTRAY_APIKEY }}
       run: |
         yarn install --frozen-lockfile
         yarn detox build -c android.release
