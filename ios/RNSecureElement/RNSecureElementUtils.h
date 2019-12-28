@@ -2,7 +2,7 @@
 //  RNSecureElement.h
 //
 //  Created by Marius Reimer on 25.10.19.
-//  Copyright © 2019-now Nect GmbH. All rights reserved.
+//  Copyright © 2019-now Marius Reimer. All rights reserved.
 //
 
 //#import <CommonCrypto/CommonCryptor.h>

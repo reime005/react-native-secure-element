@@ -46,6 +46,16 @@ jobs:
 
     - name: Provide videos of failed E2E tests
       uses: actions/upload-artifact@master
+      continue-on-error: true
       with:
         name: android-failing-e2e-videos
         path: ./examples/RNSecureElementTester/artifacts/
+
+    - name: Release new SecureElement version to maven
+      working-directory: ./android/
+      if: "github.ref == 'refs/heads/master' && contains(github.event.head_commit.message, 'release-android')"
+      env:
+        BINTRAY_USER: ${{ secrets.BINTRAY_USER }}
+        BINTRAY_APIKEY: ${{ secrets.BINTRAY_APIKEY }}
+      run: |
+        sh ./release.sh
