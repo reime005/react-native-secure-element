@@ -27,10 +27,10 @@ buildscript {
 
 if (project == rootProject) {
     apply plugin: 'com.jfrog.bintray'
-    apply plugin: 'com.android.library'
+    apply plugin: 'com.github.ben-manes.versions'
 }
 
-apply plugin: 'com.github.ben-manes.versions'
+apply plugin: 'com.android.library'
 
 // start - module specific overrides of default values written in manifest.gradle
 def bintray_project_name = bintray_project_name

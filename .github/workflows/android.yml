@@ -33,6 +33,7 @@ jobs:
         BINTRAY_APIKEY: ${{ secrets.BINTRAY_APIKEY }}
       run: |
         yarn install --frozen-lockfile
+        rm -rf node_modules/react-native-secure-element/examples
         yarn detox build -c android.release
 
     - name: Android test
