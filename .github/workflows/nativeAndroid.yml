@@ -16,6 +16,10 @@ jobs:
         java-version: 'openjdk8'
         architecture: 'x64'
 
+    - name: Download Android Image
+      run: |
+        echo y | sudo $ANDROID_HOME/tools/bin/sdkmanager "system-images;android-29;google_apis"
+
     - name: Deploy
       working-directory: ./examples/SecureElementTesterAndroid
       run:
