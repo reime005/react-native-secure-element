@@ -39,5 +39,6 @@ jobs:
         COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
       if: "github.ref == 'refs/heads/master' && contains(github.event.head_commit.message, 'release-ios')"
       run: |
+        pod trunk register SecureElement.podspec
         pod lib lint SecureElement.podspec --allow-warnings
         pod trunk push SecureElement.podspec --allow-warnings
