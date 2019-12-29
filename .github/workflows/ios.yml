@@ -41,6 +41,6 @@ jobs:
         COCOA_DESCRIPTION: ${{ secrets.COCOA_DESCRIPTION }}
       if: "github.ref == 'refs/heads/master' && contains(github.event.head_commit.message, 'release-ios')"
       run: |
-        pod trunk register SecureElement.podspec "$COCOA_NAME" --description="$COCOA_DESCRIPTION"
+        pod trunk register SecureElement.podspec "$COCOA_EMAIL" "$COCOA_NAME" --description="$COCOA_DESCRIPTION"
         pod lib lint SecureElement.podspec --allow-warnings
         pod trunk push SecureElement.podspec --allow-warnings
