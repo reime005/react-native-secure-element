@@ -1,6 +1,6 @@
 {
   "name": "react-native-secure-element",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "The most secure way to store information on a device.",
   "react-native": "src/index.ts",
   "types": "lib/typescript/index.d.ts",
@@ -48,7 +48,6 @@
     "@semantic-release/github": "^5.5.5",
     "@semantic-release/npm": "^5.3.4",
     "@semantic-release/release-notes-generator": "^7.3.5",
-
     "@react-native-community/bob": "^0.7.0",
     "@react-native-community/eslint-config": "0.0.5",
     "@types/react": "^16.9.9",
