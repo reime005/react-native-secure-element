@@ -11,7 +11,7 @@ ext {
   library_keywords = ['android', 'keystore', 'security','encryption']
   library_licenses = ["MIT": 'https://opensource.org/licenses/MIT']
   library_project_group = 'com.android.secureelement'
-  library_version = '0.0.1'
+  library_version = '1.0.0'
   version_code = 2
   min_sdk = 23
   target_sdk = 28
