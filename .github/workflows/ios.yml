@@ -37,8 +37,10 @@ jobs:
     - name: Release new SecureElement version to cocoapods
       env:
         COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+        COCOA_NAME: ${{ secrets.COCOA_NAME }}
+        COCOA_DESCRIPTION: ${{ secrets.COCOA_DESCRIPTION }}
       if: "github.ref == 'refs/heads/master' && contains(github.event.head_commit.message, 'release-ios')"
       run: |
-        pod trunk register SecureElement.podspec
+        pod trunk register SecureElement.podspec $COCOA_NAME --description=$COCOA_DESCRIPTION
         pod lib lint SecureElement.podspec --allow-warnings
         pod trunk push SecureElement.podspec --allow-warnings
