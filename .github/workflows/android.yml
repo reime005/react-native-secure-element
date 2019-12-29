@@ -13,7 +13,7 @@ jobs:
     - name: Specify node version
       uses: actions/setup-node@v1
       with:
-        node-version: '10.x'
+        node-version: 12
 
     - name: Use specific Java version for sdkmanager to work
       uses: joschi/setup-jdk@v1
@@ -61,13 +61,14 @@ jobs:
       env:
         BINTRAY_USER: ${{ secrets.BINTRAY_USER }}
         BINTRAY_APIKEY: ${{ secrets.BINTRAY_APIKEY }}
-      run: |
+      run:
         sh ./release.sh
 
     - name: Release
-      working-directory: ./
       if: github.ref == 'refs/heads/master'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      run: npx semantic-release
+      run: ||
+        yarn install --frozen-lockfile
+        npx semantic-release
