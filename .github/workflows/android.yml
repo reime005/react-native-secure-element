@@ -65,6 +65,7 @@ jobs:
         sh ./release.sh
 
     - name: Release
+      working-directory: ./
       if: github.ref == 'refs/heads/master'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
