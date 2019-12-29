@@ -1,0 +1,20 @@
+PODS:
+  - MotionDnaSDK (1.9.0)
+  - SecureElement (0.0.1)
+
+DEPENDENCIES:
+  - MotionDnaSDK
+  - SecureElement
+
+SPEC REPOS:
+  trunk:
+    - MotionDnaSDK
+    - SecureElement
+
+SPEC CHECKSUMS:
+  MotionDnaSDK: 15d44b6327885909adb0a55cd8cdb4035a5cee8e
+  SecureElement: 51912c8d9d4f847859c1c04217039b6c2f9c8209
+
+PODFILE CHECKSUM: 25c9c978f8d1da0aeea01772d00e07ffd7008a17
+
+COCOAPODS: 1.8.4

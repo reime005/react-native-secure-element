@@ -22,7 +22,7 @@ struct KeyGenParameters {
   SecAccessControlCreateFlags publicKeySACFlags;
   CFStringRef privateSACAccessible;
   CFStringRef publicSACAccessible;
-  
+
   NSString *privateKeyName;
   NSString *publicKeyName;
   int privateKeySizeInBits;

@@ -119,7 +119,14 @@ dependencies {
 tasks.whenTaskAdded { task ->
     if (task.name == 'androidJavadocs') {
         task.configure {
-            failOnError false
+            failOnError true
+            source = android.sourceSets.main.java.srcDirs
+            // this is new
+            android.libraryVariants.all { variant ->
+                owner.classpath += variant.javaCompiler.classpath
+            }
+            // end of new
+            classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
         }
     }
 }
@@ -128,7 +135,7 @@ if (project == rootProject) {
     bintray {
         user = properties.getProperty("bintray.user")
         key = properties.getProperty("bintray.apikey")
-        publications = ['Production']
+        publications = ['mavenPublish']
         pkg {
             repo = bintray_repo_name
             name = mavProjectName
@@ -140,33 +147,6 @@ if (project == rootProject) {
             labels = library_keywords
             publicDownloadNumbers = true
             publish = true
-        }
-    }
-
-    publishing {
-        publications {
-            Production(MavenPublication) {
-                artifact("$buildDir/outputs/aar/android-general-release.aar")
-                groupId library_project_group
-                artifactId bintray_project_name
-                version library_version
-
-                pom.withXml {
-                    def dependenciesNode = asNode().appendNode('dependencies')
-
-                    // Iterate over the implementation dependencies (we don't want the test ones), adding a <dependency> node for each
-                    configurations.implementation.allDependencies.each {
-                        // Ensure dependencies such as fileTree are not included in the pom.
-
-                        if (it.name != 'unspecified') {
-                            def dependencyNode = dependenciesNode.appendNode('dependency')
-                            dependencyNode.appendNode('groupId', it.group)
-                            dependencyNode.appendNode('artifactId', it.name)
-                            dependencyNode.appendNode('version', it.version)
-                        }
-                    }
-                }
-            }
         }
     }
 

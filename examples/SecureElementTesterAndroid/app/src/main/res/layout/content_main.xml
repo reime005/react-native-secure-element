@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".MainActivity"
+    tools:showIn="@layout/activity_main">
+
+    <TextView
+        android:id="@+id/text_decrypted"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_decrypt" />
+
+    <TextView
+        android:id="@+id/text_encrypted"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_encrypt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="Encrypt"
+        app:layout_constraintTop_toBottomOf="@+id/text_encrypted"
+        tools:layout_editor_absoluteX="147dp" />
+
+    <Button
+        android:id="@+id/btn_decrypt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:text="Decrypt"
+        app:layout_constraintTop_toBottomOf="@+id/btn_encrypt"
+        tools:layout_editor_absoluteX="156dp" />
+
+    <TextView
+        android:id="@+id/text_raw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="test42"
+        app:layout_constraintBottom_toTopOf="@+id/text_encrypted"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.833"
+        tools:layout_editor_absoluteX="149dp" />
+
+    <TextView
+        android:id="@+id/text_encrypted"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="test42"
+        tools:layout_editor_absoluteX="167dp"
+        tools:layout_editor_absoluteY="206dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

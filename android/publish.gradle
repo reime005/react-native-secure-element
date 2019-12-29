@@ -10,8 +10,7 @@ project.afterEvaluate {
         publications {
             mavenPublish(MavenPublication) {
                 if (isAndroidProject()) {
-                    print project
-                    artifact("$buildDir/outputs/aar/${project.getName()}-general-release.aar")
+                    artifact bundleGeneralReleaseAar
                     artifact androidJavadocsJar
                     artifact androidSourcesJar
                 } else {

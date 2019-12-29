@@ -43,23 +43,23 @@
 {
   // 1) look for availability of private key, create new pair if necessary
   SecKeyRef privateKeyRef = [self getOrCreateKeyWithOptions:params error:error];
-  
+
   if (privateKeyRef == nil) {
    // error = CFErrorCreate(kCFAllocatorDefault, nil, nil, @{NSLocalizedDescriptionKey:@"Private key could not be retrieved."});
     return nil;
   }
-  
+
   // 2) retrieve public key if available
   SecKeyRef publicKeyRef = SecKeyCopyPublicKey(privateKeyRef);
-  
+
   if (publicKeyRef == nil) {
     error = CFErrorCreate(kCFAllocatorDefault, nil, nil, @{NSLocalizedDescriptionKey:@"Public key could not be retrieved."});
     return nil;
   }
-  
+
   // 3) encrypt data
   NSString *encryptedData = [self encryptData:value withAlgorithm:params->algorithm publicKey:publicKeyRef error:error];
-  
+
   return encryptedData;
 }
 
@@ -69,16 +69,16 @@
 {
   // 1) look for availability of private key
   SecKeyRef privateKeyRef = [self getOrCreateKeyWithOptions:params error:error];
-  
+
   // lead to error if not available (not creating new keys here)
   if (privateKeyRef == nil) {
     //error = CFErrorCreate(kCFAllocatorDefault, nil, nil, @{NSLocalizedDescriptionKey:@"Private key could not be retrieved."});
     return nil;
   }
-  
+
   // 3) decrypt data
   NSString *decryptedData = [self decryptData:value withAlgorithm:params->algorithm privateKey:privateKeyRef error:error];
-  
+
   return decryptedData;
 }
 
@@ -100,7 +100,7 @@
     }
     return true;
   }
-  
+
   return false;
 }
 
@@ -112,7 +112,7 @@
     }
     return true;
   }
-  
+
   return false;
 }
 
@@ -172,18 +172,18 @@
                                   error:(CFErrorRef *)error
 {
   SecKeyRef key = NULL;
-  
+
   @try {
     key = [self getPrivateKeyForName:params->privateKeyName withPrompt:params->userPrompt withKeySizeInBits:params->privateKeySizeInBits];
   } @catch (NSException *exception) {
     [self deleteKey:params->publicKeyName];
     [self deleteKey:params->privateKeyName];
   }
-  
+
   if (key == nil) {
     key = [self generateKeyPairWithParams:params error:error];
   }
-  
+
   return key;
 }
 
@@ -192,7 +192,7 @@
                  withKeySizeInBits:(int)keySize
 {
   SecKeyRef key = NULL;
-  
+
   CFMutableDictionaryRef getPrivateKeyQuery = newCFDict;
   CFDictionarySetValue(getPrivateKeyQuery, kSecClass, kSecClassKey);
   CFDictionarySetValue(getPrivateKeyQuery, kSecAttrLabel, (__bridge const void *)(keyName));
@@ -200,7 +200,7 @@
   CFDictionarySetValue(getPrivateKeyQuery, kSecReturnRef, kCFBooleanTrue);
   CFDictionarySetValue(getPrivateKeyQuery, kSecUseOperationPrompt, userPrompt);
   CFDictionarySetValue(getPrivateKeyQuery, kSecUseAuthenticationContext, mContext);
-  
+
   if (keySize != 0 && keySize % 2 == 0) {
     CFDictionarySetValue(getPrivateKeyQuery, kSecAttrKeySizeInBits, (__bridge const void *)([NSNumber numberWithInt:keySize]));
   } else {
@@ -210,7 +210,7 @@
   OSStatus status = SecItemCopyMatching(getPrivateKeyQuery, (CFTypeRef *)&key);
   if (status == errSecSuccess)
     return (SecKeyRef)key;
-  
+
   return nil;
 }
 
@@ -222,53 +222,53 @@
                                                                    params->privateSACAccessible,
                                                                    params->privateKeySACFlags,
                                                                    &t1);
-  
+
   CFErrorRef t2 = NULL;
   SecAccessControlRef publicSAC = SecAccessControlCreateWithFlags(kCFAllocatorDefault,
                                                                   params->publicSACAccessible,
                                                                   params->publicKeySACFlags,
                                                                   &t2);
-  
+
   if (privateSAC == nil || publicSAC == nil) {
     return nil;
   }
-  
+
   // create dict of private key info
   CFMutableDictionaryRef publicAccessControlDict = newCFDict;
   CFDictionaryAddValue(publicAccessControlDict, kSecAttrAccessControl, publicSAC);
   CFDictionaryAddValue(publicAccessControlDict, kSecAttrLabel, params->publicKeyName);
   CFDictionarySetValue(publicAccessControlDict, kSecAttrApplicationTag, params->publicKeyName);
-  
+
   CFMutableDictionaryRef privateAccessControlDict = newCFDict;
   CFDictionaryAddValue(privateAccessControlDict, kSecAttrAccessControl, privateSAC);
   CFDictionaryAddValue(privateAccessControlDict, kSecAttrIsPermanent, kCFBooleanTrue); /* SAVE KEY */
   CFDictionaryAddValue(privateAccessControlDict, kSecAttrLabel, params->privateKeyName);
   CFDictionarySetValue(privateAccessControlDict, kSecAttrApplicationTag, params->privateKeyName);
-  
+
   CFDictionarySetValue(privateAccessControlDict, kSecUseAuthenticationContext, mContext);
-  
+
   // create dict which actually saves key into keychain
   CFMutableDictionaryRef generatePairRef = newCFDict;
-  
+
   if (TARGET_OS_SIMULATOR == 0 && [self deviceHasPassCode:nil]) {
     CFDictionaryAddValue(generatePairRef, kSecAttrTokenID, kSecAttrTokenIDSecureEnclave);
   }
-  
+
   CFDictionaryAddValue(generatePairRef, kSecAttrKeyType, params->attrKeyType);
-  
+
   if (params->privateKeySizeInBits != 0 && params->privateKeySizeInBits % 2 == 0) {
     CFDictionaryAddValue(generatePairRef, kSecAttrKeySizeInBits, (__bridge const void *)([NSNumber numberWithInt:params->privateKeySizeInBits]));
   } else {
     CFDictionaryAddValue(generatePairRef, kSecAttrKeySizeInBits, (__bridge const void *)([NSNumber numberWithInt:256]));
   }
-  
+
   CFDictionaryAddValue(generatePairRef, kSecPrivateKeyAttrs, privateAccessControlDict);
   CFDictionaryAddValue(generatePairRef, kSecPublicKeyAttrs, publicAccessControlDict);
-  
+
   /* GENERATE KEYPAIR */
-  
+
   SecKeyRef privateKey = SecKeyCreateRandomKey(generatePairRef, error);
-  
+
   CFMutableDictionaryRef saveDict = newCFDict;
   CFDictionarySetValue(saveDict, kSecValueRef, privateKey);
   CFDictionarySetValue(saveDict, kSecClass, kSecClassKey);
@@ -276,12 +276,12 @@
   CFDictionarySetValue(saveDict, kSecAttrLabel, params->privateKeyName);
 
   OSStatus saveStatus = SecItemAdd(saveDict, nil);
-  
+
   if (saveStatus == errSecDuplicateItem) {
     SecItemDelete(saveDict);
     saveStatus = SecItemAdd(saveDict, nil);
   }
-  
+
   if (saveStatus == errSecSuccess)
     return privateKey;
   else
@@ -293,7 +293,7 @@
   CFMutableDictionaryRef savePublicKeyDict = newCFDict;
   CFDictionaryAddValue(savePublicKeyDict, kSecClass, kSecClassKey);
   CFDictionaryAddValue(savePublicKeyDict, kSecAttrApplicationTag, keyName);
-  
+
   OSStatus err = SecItemDelete(savePublicKeyDict);
   while (err == errSecDuplicateItem)
   {
@@ -305,8 +305,8 @@
 - (struct KeyGenParameters) getDefaultKeyGenParameters
 {
   struct KeyGenParameters params;
-  
-  params.algorithm = kSecKeyAlgorithmECDSASignatureMessageX962SHA256;
+
+  params.algorithm = kSecKeyAlgorithmECIESEncryptionStandardX963SHA256AESGCM;
   params.attrKeyType = kSecAttrKeyTypeECSECPrimeRandom;
   params.saveInSecureEnclaveIfPossible = true;
   params.privateKeyName = @"defaultPrivateKeyName";
@@ -317,7 +317,7 @@
   params.privateKeySACFlags = 0;
   params.publicKeySACFlags = 0;
   params.privateKeySizeInBits = 256;
-    
+
   return params;
 }
 
