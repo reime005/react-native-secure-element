@@ -1,6 +1,6 @@
 {
   "name": "react-native-secure-element",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "The most secure way to store information on a device.",
   "react-native": "src/index.ts",
   "types": "lib/typescript/index.d.ts",
