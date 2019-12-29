@@ -27,3 +27,5 @@ project.xcworkspace
 examples/
 node_modules/
 logo.png
+.idea
+Pods/

@@ -1,4 +1,4 @@
-package com.app.rnsecureelement;
+package com.android.secureelement;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;

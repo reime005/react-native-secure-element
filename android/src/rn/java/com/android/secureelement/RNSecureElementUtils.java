@@ -1,4 +1,4 @@
-package com.app.rnsecureelement;
+package com.android.secureelement;
 
 import androidx.annotation.NonNull;
 
