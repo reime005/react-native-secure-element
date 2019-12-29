@@ -68,6 +68,22 @@ yarn add react-native-secure-element
 
 Note that this requires a react-native version of at least 0.60.0, to use its auto linking feature.
 
+### Native Android Dependency
+
+Via gradle/maven dependency:
+
+```groovy
+implementation 'com.android.secureelement:android:+'
+```
+
+### Native iOS Dependency
+
+Via cocoapods dependency:
+
+```ruby
+pod 'SecureElement'
+```
+
 <p>&nbsp;</p>
 
 ---

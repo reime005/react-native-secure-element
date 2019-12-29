@@ -1,0 +1,19 @@
+name: Native iOS
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout project
+      uses: actions/checkout@v1
+
+    - name: Deploy
+      env:
+        DEVELOPER_DIR: /Applications/Xcode_11.1.app/Contents/Developer
+      working-directory: ./examples/SecureElementTesterIOS
+      run: |
+        pod install
+        xcodebuild -workspace iOS-helloworld-ObjC.xcworkspace -scheme iOS-helloworld-ObjC -configuration Debug -sdk iphonesimulator

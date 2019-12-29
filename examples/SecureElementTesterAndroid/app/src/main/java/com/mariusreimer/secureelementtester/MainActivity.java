@@ -1,4 +1,4 @@
-package com.mariusreimer.foo;
+package com.mariusreimer.secureelementtester;
 
 import android.os.Bundle;
 

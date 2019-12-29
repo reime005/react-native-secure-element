@@ -1,0 +1,22 @@
+name: Native Android
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout project
+      uses: actions/checkout@v1
+
+    - name: Use specific Java version
+      uses: joschi/setup-jdk@v1
+      with:
+        java-version: 'openjdk8'
+        architecture: 'x64'
+
+    - name: Deploy
+      working-directory: ./examples/SecureElementTesterAndroid
+      run:
+        ./gradlew assembleRelease
