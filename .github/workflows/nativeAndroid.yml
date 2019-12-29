@@ -18,7 +18,7 @@ jobs:
 
     - name: Download Android Image
       run: |
-        echo y | sudo $ANDROID_HOME/tools/bin/sdkmanager "system-images;android-29;google_apis"
+        echo y | sudo $ANDROID_HOME/tools/bin/sdkmanager "system-images;android-29;google_apis;build-tools;29.0.1"
 
     - name: Deploy
       working-directory: ./examples/SecureElementTesterAndroid
