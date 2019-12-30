@@ -28,8 +28,33 @@ The iOS side uses the CommonCrypto and LocalAuthentication APIs. It saves the ke
 
 <div style="font-size:10px; color: grey">Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 
+See examples in [src/examples](./src/examples).
+
 ```javascript
-/* EXAMPLE will follow */
+// React Hooks example
+import { useSecureElement } from 'react-native-secure-element';
+
+const Example = () => {
+  const { encrypt } = useSecureElement();
+  const [encryptedBase64Text, setEncryptedBase64Text] = useState('');
+
+  useEffect(
+    async () => {
+      try {
+        const val = await encrypt('someKey', 'toEncrypt');
+        setEncryptedBase64Text(val);
+      } catch (e) {
+        console.warn(e);
+        setEncryptedBase64Text(e.message);
+      }
+    },
+    []
+  )
+
+  <View>
+    <Text>{encryptedBase64Text}</Text>
+  </View>
+}
 ```
 
 ## Features
