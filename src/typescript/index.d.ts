@@ -1,6 +1,6 @@
 export interface ISecureElement {
-  decrypt(key: string, value: string, opts: AndroidKeyGenOptions): Promise<string | null>;
-  encrypt(key: string, value: string, opts: AndroidKeyGenOptions): Promise<string | null>;
+  decrypt(key: string, value: string, opts: AndroidKeyGenOptions | IOSKeyGenOptions): Promise<string | null>;
+  encrypt(key: string, value: string, opts: AndroidKeyGenOptions | IOSKeyGenOptions): Promise<string | null>;
   clearElement(key: string, keyProvider: AndroidKeyGenProvider): Promise<void>;
   clearAll(keyProvider: AndroidKeyGenProvider): Promise<void>;
   isSecureDevice(): Promise<boolean>;
@@ -39,7 +39,7 @@ export type DeviceFeature =
   | 'ANDROID_FINGERPRINT'
   | 'ANDROID_DEVICE_SECURE';
 export type AndroidKeyGenAlgorithm = 'RSA'; //TODO: [mr] see docs
-export type AndroidKeyGenProvider = 'AndroidKeyStore'; //TODO: [mr] see docs
+export type AndroidKeyGenProvider = 'AndroidKeyStore' | ''; //TODO: [mr] see docs
 export type AndroidKeyGenPurpose = 'ENCRYPT' | 'DECRYPT' | 'SIGN' | 'VERIFY';
 export type AndroidKeyGenBlockMode = 'ECB' | 'CBC' | 'CTR' | 'GCM';
 export type AndroidKeyGenEncryptionPadding =
