@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, MutableRefObject } from 'react';
 
 import {
   AndroidKeyGenOptions,
@@ -10,14 +10,14 @@ import {
 import { SecureElement } from './SecureElement';
 
 export const useSecureElement = () => {
-  const se: ISecureElement = useRef(new SecureElement());
+  const se: MutableRefObject<ISecureElement> = useRef(new SecureElement());
 
   const encrypt = (
     key: string,
     value: string,
     opts: AndroidKeyGenOptions | IOSKeyGenOptions,
   ): Promise<string | null> => {
-    return se.encrypt(key, value, opts);
+    return se.current.encrypt(key, value, opts);
   };
 
   const decrypt = (
@@ -25,35 +25,35 @@ export const useSecureElement = () => {
     value: string,
     opts: AndroidKeyGenOptions | IOSKeyGenOptions,
   ): Promise<string | null> => {
-    return se.encrypt(key, value, opts);
+    return se.current.encrypt(key, value, opts);
   };
 
   const clearElement = (
     key: string, keyProvider: AndroidKeyGenProvider
   ): Promise<void> => {
-    return se.clearElement(key, keyProvider);
+    return se.current.clearElement(key, keyProvider);
   };
 
   const clearAll = (
     keyProvider: AndroidKeyGenProvider
   ): Promise<void> => {
-    return se.clearAll(keyProvider);
+    return se.current.clearAll(keyProvider);
   };
 
   const isSecureDevice = (
   ): Promise<boolean> => {
-    return se.isSecureDevice();
+    return se.current.isSecureDevice();
   };
 
   const getDeviceFeatures = (
   ): Promise<DeviceFeature[]> => {
-    return se.getDeviceFeatures();
+    return se.current.getDeviceFeatures();
   };
 
   const performAuthentication = (
     withFeature: DeviceFeature
   ): Promise<boolean> => {
-    return se.performAuthentication(withFeature);
+    return se.current.performAuthentication(withFeature);
   };
 
   return [
