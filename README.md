@@ -55,6 +55,12 @@ const Example = () => {
 }
 ```
 
+## Automated E2E (UI) Tests Preview
+
+With Github Actions, each commit automatically triggers a full build cycle. This includes running End-to-End (E2E) or UI tests on an iOS Simulator and Android Emulator. This has the benefit of having only tested and not _breaking code_ merged into the *master* branch.
+
+![E2E Tests](https://mariusreimer.com/secure-element.gif)
+
 ## Features
 
   - Full TypeScript support
