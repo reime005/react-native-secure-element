@@ -78,8 +78,6 @@ See types definition in [src/typescript](./src/typescript/index.d.ts).
 
 <p>&nbsp;</p>
 
----
-
 ## Installation
 
 To install react-native-secure-element, do either
