@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  some-job:
+  ios-react-native:
     runs-on: macos-latest
 
     steps:

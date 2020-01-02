@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  build:
+  android-react-native:
     runs-on: macos-latest
 
     steps:
