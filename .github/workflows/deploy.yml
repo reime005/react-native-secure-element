@@ -12,14 +12,17 @@ jobs:
 
     steps:
     - name: Checkout project
+      if: "!contains(github.event.head_commit.message, '[skip ci]')"
       uses: actions/checkout@v1
 
     - name: Specify node version
       uses: actions/setup-node@v1
+      if: "!contains(github.event.head_commit.message, '[skip ci]')"
       with:
         node-version: 12
 
     - name: Release NPM
+      if: "!contains(github.event.head_commit.message, '[skip ci]')"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -30,7 +33,7 @@ jobs:
     - name: Release new SecureElement version to cocoapods
       env:
         COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
-      if: "contains(github.event.head_commit.message, 'release-ios')"
+      if: "!contains(github.event.head_commit.message, '[skip ci]') && contains(github.event.head_commit.message, 'release-ios')"
       run: |
         pod trunk register reime005@gmail.com 'Marius Reimer (reime005)' --description='MBP'
         pod lib lint SecureElement.podspec --allow-warnings
@@ -38,7 +41,7 @@ jobs:
 
     - name: Release new SecureElement version to maven
       working-directory: ./android/
-      if: "contains(github.event.head_commit.message, 'release-android')"
+      if: "!contains(github.event.head_commit.message, '[skip ci]') && contains(github.event.head_commit.message, 'release-android')"
       env:
         BINTRAY_USER: ${{ secrets.BINTRAY_USER }}
         BINTRAY_APIKEY: ${{ secrets.BINTRAY_APIKEY }}
