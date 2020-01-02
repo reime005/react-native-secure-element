@@ -30,16 +30,7 @@ jobs:
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       run: |
         yarn install --frozen-lockfile
-        npx semantic-release
-
-    - name: Release new SecureElement version to maven
-      working-directory: ./android/
-      if: "github.event.pull_request.merged && contains(github.event.head_commit.message, 'release-android')"
-      env:
-        BINTRAY_USER: ${{ secrets.BINTRAY_USER }}
-        BINTRAY_APIKEY: ${{ secrets.BINTRAY_APIKEY }}
-      run:
-        sh ./release.sh
+        npx semantic-release --skip-pr-check
 
     - name: Release new SecureElement version to cocoapods
       env:
@@ -49,3 +40,12 @@ jobs:
         pod trunk register reime005@gmail.com 'Marius Reimer (reime005)' --description='MBP'
         pod lib lint SecureElement.podspec --allow-warnings
         pod trunk push SecureElement.podspec --allow-warnings
+
+    - name: Release new SecureElement version to maven
+      working-directory: ./android/
+      if: "github.event.pull_request.merged && contains(github.event.head_commit.message, 'release-android')"
+      env:
+        BINTRAY_USER: ${{ secrets.BINTRAY_USER }}
+        BINTRAY_APIKEY: ${{ secrets.BINTRAY_APIKEY }}
+      run:
+        sh ./release.sh
