@@ -4,7 +4,6 @@
   <p align='center'>Secure Element for React Native</p>
 </p>
 <p>&nbsp;</p>
-
 <p>
 
 React Native Secure Element provides functionality to use on-device and hardware-based secure encryption and decryption.
