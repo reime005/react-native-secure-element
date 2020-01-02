@@ -1,6 +1,9 @@
 name: iOS
 
-on: [push, pull_request]
+on:
+  pull_request:
+    branches:
+      - master
 
 jobs:
   some-job:
@@ -33,12 +36,3 @@ jobs:
       run: |
         yarn detox clean-framework-cache && npx detox build-framework-cache
         yarn detox test -c ios.release
-
-    - name: Release new SecureElement version to cocoapods
-      env:
-        COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
-      if: "github.ref == 'refs/heads/master' && contains(github.event.head_commit.message, 'release-ios')"
-      run: |
-        pod trunk register reime005@gmail.com 'Marius Reimer (reime005)' --description='MBP'
-        pod lib lint SecureElement.podspec --allow-warnings
-        pod trunk push SecureElement.podspec --allow-warnings

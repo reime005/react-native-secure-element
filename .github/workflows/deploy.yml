@@ -1,0 +1,51 @@
+name: Deploy
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: macos-latest
+    if: github.event.pull_request.merged
+
+    steps:
+    - name: Checkout project
+      uses: actions/checkout@v1
+      if: github.event.pull_request.merged
+      with:
+        ref: master
+
+    - name: Specify node version
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12
+
+    - name: Release NPM
+      if: github.event.pull_request.merged
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      run: |
+        yarn install --frozen-lockfile
+        npx semantic-release
+
+    - name: Release new SecureElement version to maven
+      working-directory: ./android/
+      if: "github.event.pull_request.merged && contains(github.event.head_commit.message, 'release-android')"
+      env:
+        BINTRAY_USER: ${{ secrets.BINTRAY_USER }}
+        BINTRAY_APIKEY: ${{ secrets.BINTRAY_APIKEY }}
+      run:
+        sh ./release.sh
+
+    - name: Release new SecureElement version to cocoapods
+      env:
+        COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+      if: "github.event.pull_request.merged && contains(github.event.head_commit.message, 'release-ios')"
+      run: |
+        pod trunk register reime005@gmail.com 'Marius Reimer (reime005)' --description='MBP'
+        pod lib lint SecureElement.podspec --allow-warnings
+        pod trunk push SecureElement.podspec --allow-warnings

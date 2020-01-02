@@ -1,6 +1,9 @@
 name: Android
 
-on: [push, pull_request]
+on:
+  pull_request:
+    branches:
+      - master
 
 jobs:
   build:
@@ -54,21 +57,3 @@ jobs:
       with:
         name: android-failing-e2e-videos
         path: ./examples/RNSecureElementTester/artifacts/
-
-    - name: Release new SecureElement version to maven
-      working-directory: ./android/
-      if: "github.ref == 'refs/heads/master' && contains(github.event.head_commit.message, 'release-android')"
-      env:
-        BINTRAY_USER: ${{ secrets.BINTRAY_USER }}
-        BINTRAY_APIKEY: ${{ secrets.BINTRAY_APIKEY }}
-      run:
-        sh ./release.sh
-
-    - name: Release
-      if: github.ref == 'refs/heads/master'
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      run: |
-        yarn install --frozen-lockfile
-        npx semantic-release
