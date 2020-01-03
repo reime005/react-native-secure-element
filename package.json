@@ -27,7 +27,9 @@
     "precommit": "lint-staged && yarn analyze",
     "build": "bob build",
     "prepare": "yarn build",
-    "postinstall": "git submodule update --init --recursive"
+    "postinstall": "git submodule update --init --recursive",
+    "commit": "git-cz",
+    "commitmsg": "commitlint -e $GIT_PARAMS"
   },
   "lint-staged": {
     "*.ts": [
