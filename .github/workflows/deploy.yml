@@ -27,7 +27,7 @@ jobs:
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       run: |
         yarn install --frozen-lockfile
-        npx semantic-release --skip-pr-check
+        npx semantic-release
 
     - name: Release new SecureElement version to cocoapods
       env:
