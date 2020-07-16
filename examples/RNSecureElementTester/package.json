@@ -43,11 +43,14 @@
         "type": "ios.simulator",
         "name": "iPhone 11"
       },
-      "ios.release": {
+      "ios.release.13.1": {
         "binaryPath": "ios/build/app/Build/Products/Release-iphonesimulator/RNSecureElementTester.app",
         "build": "xcodebuild -workspace ios/RNSecureElementTester.xcworkspace -scheme RNSecureElementTester -configuration Release -sdk iphonesimulator -UseModernBuildSystem=NO -derivedDataPath ios/build/app -quiet",
         "type": "ios.simulator",
-        "name": "iPhone 11"
+        "device": {
+          "type": "iPhone 11",
+          "os": "iOS 13.1"
+        }
       },
       "android.debug": {
         "binaryPath": "android/app/build/outputs/apk/debug/app-debug.apk",
