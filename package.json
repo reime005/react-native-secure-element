@@ -63,7 +63,7 @@
     "prettier": "^1.18.2",
     "react": "^16.11.0",
     "react-native": "^0.61.2",
-    "semantic-release": "^15.14.0",
+    "semantic-release": "^17.2.3",
     "typescript": "^3.6.4"
   },
   "eslintConfig": {
